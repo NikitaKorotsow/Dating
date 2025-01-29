@@ -1,0 +1,23 @@
+{
+  "name": "dating",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./src/index.ts",
+    "start:prod": "node ./dist/index",
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "dating": "file:",
+    "express": "^4.21.2",
+    "pg": "^8.13.1",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.20",
+    "typescript": "^5.7.3"
+  }
+}
