@@ -4,7 +4,8 @@ import {
     BaseEntity,
     ManyToOne,
     CreateDateColumn,
-    JoinColumn
+    JoinColumn,
+    Column
 } from "typeorm"
 import { User } from "./Users"
 
@@ -28,17 +29,13 @@ export class Like extends BaseEntity {
 
     @CreateDateColumn({
         type: 'timestamp',
-        nullable: false,
         name:'created_date'
-
     })
-    createdDate: Date;
+    createdDate: string;
 
-    @CreateDateColumn({
+    @Column({
         type: 'timestamp',
-        nullable: false,
         name:'deleted_date'
     })
-    deletedDate: Date;
-
+    deletedDate: string;
 }

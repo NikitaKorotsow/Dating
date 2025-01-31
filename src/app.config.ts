@@ -17,14 +17,13 @@ import { UserRepository } from "./Repositories/UserRepository";
 
 export const configurationService = new ConfigurationService();
 
-
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: '123',
-    database: 'Dating',
+    host: configurationService.DATABASE_HOST,
+    port: configurationService.DATABASE_PORT,
+    username: configurationService.DATABASE_USER,
+    password: configurationService.DATABASE_PASSWORD,
+    database: configurationService.DATABASE_NAME,
     synchronize: true,
     logging: false,
     entities: [
@@ -40,16 +39,18 @@ export const AppDataSource = new DataSource({
     subscribers: [],
 });
 
+AppDataSource.initialize()
+    .then(async (data: DataSource) => {
+        console.log('Data Source has been initialized!');
+    })
+    .catch((error) => {
+        console.error('Error during Data Source initialization:', error);
+    });
 
-
-export const createRepositories = () => {
-    return {
-        likeRepository: new LikeRepository(AppDataSource.getRepository(Like)),
-        attachmentRepository: new AttachmentsRepository(AppDataSource.getRepository(Attachment)),
-        attachmentsMessageRepository: new AttachmentsMessageRepository(AppDataSource.getRepository(AttachmentMessage)),
-        chatMessageRepository: new  ChatMessageRepository(AppDataSource.getRepository(ChatMessage)),
-        messageRepository: new  MessageRepository(AppDataSource.getRepository(Message)),
-        userRepository: new UserRepository(AppDataSource.getRepository(User)),
-        chatRepository: new ChatRepository(AppDataSource.getRepository(Chat))
-    }
-}
+export const likeRepository = new LikeRepository(AppDataSource.getRepository(Like));
+export const attachmentRepository = new AttachmentsRepository(AppDataSource.getRepository(Attachment));
+export const attachmentsMessageRepository = new AttachmentsMessageRepository(AppDataSource.getRepository(AttachmentMessage));
+export const chatMessageRepository = new ChatMessageRepository(AppDataSource.getRepository(ChatMessage));
+export const messageRepository = new MessageRepository(AppDataSource.getRepository(Message));
+export const userRepository = new UserRepository(AppDataSource.getRepository(User));
+export const chatRepository = new ChatRepository(AppDataSource.getRepository(Chat));
