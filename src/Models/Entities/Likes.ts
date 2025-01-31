@@ -8,7 +8,7 @@ import {
 } from "typeorm"
 import { User } from "./Users"
 
-@Entity()
+@Entity('likes')
 export class Like extends BaseEntity {
 
     @PrimaryGeneratedColumn()

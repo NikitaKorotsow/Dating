@@ -1,19 +1,19 @@
 import { Repository } from "typeorm";
-import { Like } from "../Models/Entities/Likes";
+import { ChatMessage } from "../Models/Entities/ChatMessage";
 
-export class LikeRepository {
-    private readonly _repository: Repository<Like>;
+export class ChatMessageRepository {
+    private readonly _repository: Repository<ChatMessage>;
 
-    constructor(repository: Repository<Like>) {
+    constructor(repository: Repository<ChatMessage>) {
         this._repository = repository;
     }
 
-    public async getAll(): Promise<Like[] | null> {
+    public async getAll(): Promise<ChatMessage[] | null> {
         try {
             return await this._repository.find({
                 relations: [
-                    'to',
-                    'from'
+                    'chatId',
+                    'messageId',
                 ]
             });
         } catch (error) {
@@ -21,15 +21,15 @@ export class LikeRepository {
         }
     }
 
-    public async getById(id: number): Promise<Like | null> {
+    public async getById(id: number): Promise<ChatMessage | null> {
         try {
             return await this._repository.findOne({
                 where: {
                     id: id,
                 },
                 relations: [
-                    'to',
-                    'from'
+                    'chatId',
+                    'messageId',
                 ]
             })
         } catch (error) {
@@ -37,25 +37,25 @@ export class LikeRepository {
         }
     }
 
-    public async getByToId(id: number): Promise<Like[] | null> {
+    public async getByAttachmentsId(id: number): Promise<ChatMessage[] | null> {
         try {
             return await this._repository.find({
                 where: {
-                    to: {
+                    chatId: {
                         id: id
-                    }
-                }
+                    },
+                },
             })
         } catch (error) {
             return null;
         }
     }
 
-    public async getByFromId(id: number): Promise<Like[] | null> {
+    public async getByMessageId(id: number): Promise<ChatMessage[] | null> {
         try {
             return await this._repository.find({
                 where: {
-                    from: {
+                    messageId: {
                         id: id
                     }
                 }

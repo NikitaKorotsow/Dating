@@ -8,8 +8,8 @@ import {
 } from "typeorm"
 import { User } from "./Users"
 
-@Entity()
-export class Attachments extends BaseEntity {
+@Entity('attachments')
+export class Attachment extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -33,9 +33,9 @@ export class Attachments extends BaseEntity {
         nullable: false,
         name: 'is_avatar'
     })
-    isAvatar: string;
+    isAvatar: boolean;
 
-    @ManyToOne(() => User, (user) => user.attachments)
+    @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({
         name: 'user_id'
     })

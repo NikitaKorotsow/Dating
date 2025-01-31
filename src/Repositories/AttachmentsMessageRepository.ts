@@ -1,19 +1,19 @@
 import { Repository } from "typeorm";
-import { Like } from "../Models/Entities/Likes";
+import { AttachmentMessage } from "../Models/Entities/AttachmentsMessage";
 
-export class LikeRepository {
-    private readonly _repository: Repository<Like>;
+export class AttachmentsMessageRepository {
+    private readonly _repository: Repository<AttachmentMessage>;
 
-    constructor(repository: Repository<Like>) {
+    constructor(repository: Repository<AttachmentMessage>) {
         this._repository = repository;
     }
 
-    public async getAll(): Promise<Like[] | null> {
+    public async getAll(): Promise<AttachmentMessage[] | null> {
         try {
             return await this._repository.find({
                 relations: [
-                    'to',
-                    'from'
+                    'attachmentsId',
+                    'messageId',
                 ]
             });
         } catch (error) {
@@ -21,15 +21,15 @@ export class LikeRepository {
         }
     }
 
-    public async getById(id: number): Promise<Like | null> {
+    public async getById(id: number): Promise<AttachmentMessage | null> {
         try {
             return await this._repository.findOne({
                 where: {
                     id: id,
                 },
                 relations: [
-                    'to',
-                    'from'
+                    'attachmentsId',
+                    'messageId',
                 ]
             })
         } catch (error) {
@@ -37,25 +37,25 @@ export class LikeRepository {
         }
     }
 
-    public async getByToId(id: number): Promise<Like[] | null> {
+    public async getByAttachmentsId(id: number): Promise<AttachmentMessage[] | null> {
         try {
             return await this._repository.find({
                 where: {
-                    to: {
+                    attachmentsId: {
                         id: id
-                    }
-                }
+                    },
+                },
             })
         } catch (error) {
             return null;
         }
     }
 
-    public async getByFromId(id: number): Promise<Like[] | null> {
+    public async getByMessageId(id: number): Promise<AttachmentMessage[] | null> {
         try {
             return await this._repository.find({
                 where: {
-                    from: {
+                    messageId: {
                         id: id
                     }
                 }

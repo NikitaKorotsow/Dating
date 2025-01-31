@@ -5,20 +5,20 @@ import {
     ManyToOne,
     JoinColumn,
 } from "typeorm"
-import { Attachments } from "./Attachments";
+import { Attachment } from "./Attachments";
 import { Message } from "./Messages";
 
-@Entity()
-export class AttachmentsMessage extends BaseEntity {
+@Entity('attachments_message')
+export class AttachmentMessage extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Attachments, attachments => attachments.id)
+    @ManyToOne(() => Attachment, attachments => attachments.id)
     @JoinColumn({
         name: 'attachment_id'
     })
-    attachmentsId: Attachments;
+    attachmentsId: Attachment;
 
     @ManyToOne(() => Message, message => message.id)
     @JoinColumn({

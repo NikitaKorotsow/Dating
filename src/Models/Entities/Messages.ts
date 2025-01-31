@@ -10,9 +10,9 @@ import {
 } from "typeorm"
 import { User } from "./Users"
 import { ChatMessage } from "./ChatMessage";
-import { AttachmentsMessage } from "./AttachmentsMessage";
+import { AttachmentMessage } from "./AttachmentsMessage";
 
-@Entity()
+@Entity('message')
 export class Message extends BaseEntity {
 
     @PrimaryGeneratedColumn()
@@ -68,6 +68,6 @@ export class Message extends BaseEntity {
     @OneToMany(() => ChatMessage, chatMessage => chatMessage.messageId)
     chatMessageId: ChatMessage[];
 
-    @OneToMany(() => AttachmentsMessage, attachmentsMessage => attachmentsMessage.messageId)
+    @OneToMany(() => AttachmentMessage, attachmentMessage => attachmentMessage.messageId)
     attachmentsMessageId: ChatMessage[];
 }

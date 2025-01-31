@@ -5,12 +5,12 @@ import {
     BaseEntity,
     OneToMany
 } from "typeorm"
-import { Attachments } from './Attachments';
+import { Attachment } from './Attachments';
 import { Like } from "./Likes";
 import { Chat } from "./Chats";
 import { Message } from './Messages'
 
-@Entity()
+@Entity('users')
 export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
@@ -65,8 +65,8 @@ export class User extends BaseEntity {
     })
     name: string;
 
-    @OneToMany(() => Attachments, attachment => attachment.user)
-    attachments: Attachments[]
+    @OneToMany(() => Attachment, attachment => attachment.user)
+    attachments: Attachment[]
 
     @OneToMany(() => Like, (like) => like.to)
     likesTo: Like[]
