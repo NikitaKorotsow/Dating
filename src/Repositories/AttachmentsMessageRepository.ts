@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { AttachmentMessage } from "../Models/Entities/AttachmentsMessage";
+import { AttachmentMessageFilter } from "../Models/Filters/AttachmentMessageFilter";
 
 export class AttachmentsMessageRepository {
     private readonly _repository: Repository<AttachmentMessage>;
@@ -63,5 +64,26 @@ export class AttachmentsMessageRepository {
         } catch (error) {
             return null;
         }
+    }
+
+    public async create(filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
+            const entity: AttachmentMessage = await this._repository.create();
+            if (filter.attachment) {
+                entity.attachmentsId = filter.attachment;
+            }
+            if (filter.message) {
+                entity.messageId = filter.message;
+            }
+            return await this._repository.save(entity);
+        }
+    
+    public async update(entity: AttachmentMessage, filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
+        if (filter.attachment) {
+            entity.attachmentsId = filter.attachment;
+        }
+        if (filter.message) {
+            entity.messageId = filter.message;
+        }
+        return await this._repository.save(entity);
     }
 }

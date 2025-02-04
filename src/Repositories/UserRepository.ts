@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { User } from "../Models/Entities/Users";
+import { UserFilter } from "../Models/Filters/UserFilter";
 
 export class UserRepository {
     private readonly _repository: Repository<User>;
@@ -76,4 +77,55 @@ export class UserRepository {
             return null;
         }
     }
+
+    public async create(filter: UserFilter): Promise<User> {
+        const entity: User = await this._repository.create();
+        if (filter.age) {
+            entity.age = filter.age;
+        }
+        if (filter.city) {
+            entity.city = filter.city;
+        }
+        if (filter.gender) {
+            entity.gender = filter.gender;
+        }
+        if (filter.isDeleted) {
+            entity.isDeleted = filter.isDeleted;
+        }
+        if (filter.login) {
+            entity.login = filter.login;            
+        }
+        if(filter.password){
+            entity.password = filter.password;
+        }
+        if(filter.name){
+            entity.name = filter.name;
+        }
+        return await this._repository.save(entity);
+    }
+
+    public async update(entity: User, filter: UserFilter): Promise<User> {
+        if (filter.age) {
+            entity.age = filter.age;
+        }
+        if (filter.city) {
+            entity.city = filter.city;
+        }
+        if (filter.gender) {
+            entity.gender = filter.gender;
+        }
+        if (filter.isDeleted) {
+            entity.isDeleted = filter.isDeleted;
+        }
+        if (filter.login) {
+            entity.login = filter.login;            
+        }
+        if(filter.password){
+            entity.password = filter.password;
+        }
+        if(filter.name){
+            entity.name = filter.name;
+        }
+        return await this._repository.save(entity);
+    }    
 }

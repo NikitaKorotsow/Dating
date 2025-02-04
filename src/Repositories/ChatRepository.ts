@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { Chat } from "../Models/Entities/Chats";
+import { ChatFilter } from "../Models/Filters/ChatFilter";
 
 export class ChatRepository {
     private readonly _repository: Repository<Chat>;
@@ -42,5 +43,26 @@ export class ChatRepository {
         } catch (error) {
             return null;
         }
+    }
+
+    public async create(filter: ChatFilter): Promise<Chat> {
+        const entity: Chat = await this._repository.create();
+        if (filter.to) {
+            entity.toId = filter.to;
+        }
+        if (filter.from) {
+            entity.fromId = filter.from;
+        }
+        if (filter.title) {
+            entity.title = filter.title;
+        }
+        return await this._repository.save(entity);
+    }
+
+    public async update(entity: Chat, filter: ChatFilter): Promise<Chat> {
+        if (filter.title) {
+            entity.title = filter.title;
+        }
+        return await this._repository.save(entity);
     }
 }

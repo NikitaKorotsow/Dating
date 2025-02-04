@@ -35,28 +35,28 @@ export class Message extends BaseEntity {
         nullable: false,
         name: 'content'
     })
-    title: string;
+    content: string;
 
     @CreateDateColumn({
         type: 'timestamp',
         nullable: false,
         name: 'created_date'
     })
-    createdDate: Date;
+    createdDate: string;
 
     @CreateDateColumn({
         type: 'timestamp',
         nullable: false,
         name: 'updated_date'
     })
-    updatedDate: Date;
+    updatedDate: string;
 
     @CreateDateColumn({
         type: 'timestamp',
         nullable: false,
         name: 'deleted_date'
     })
-    deletedDate: Date;
+    deletedDate: string;
 
     @Column({
         type: 'boolean',

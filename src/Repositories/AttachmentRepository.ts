@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { Attachment } from "../Models/Entities/Attachments";
+import { AttachmentFilter } from "../Models/Filters/AttachmentFilter";
 
 export class AttachmentsRepository {
     private readonly _repository: Repository<Attachment>;
@@ -64,5 +65,29 @@ export class AttachmentsRepository {
         } catch (error) {
             return null;
         }
+    }
+
+    public async create(filter: AttachmentFilter): Promise<Attachment> {
+        const entity: Attachment = await this._repository.create();
+        if (filter.user) {
+            entity.user = filter.user;
+        }
+        if (filter.path) {
+            entity.path = filter.path;
+        }
+        if (filter.mimetype) {
+            entity.mimetype = filter.mimetype;
+        }
+        if (filter.isAvatar) {
+            entity.isAvatar = filter.isAvatar;
+        }
+        return await this._repository.save(entity);
+    }
+
+    public async update(entity: Attachment, filter: AttachmentFilter): Promise<Attachment> {
+        if (filter.isAvatar) {
+            entity.isAvatar = filter.isAvatar;
+        }
+        return await this._repository.save(entity);
     }
 }
