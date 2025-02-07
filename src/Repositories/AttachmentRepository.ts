@@ -69,25 +69,12 @@ export class AttachmentsRepository {
 
     public async create(filter: AttachmentFilter): Promise<Attachment> {
         const entity: Attachment = await this._repository.create();
-        if (filter.user) {
-            entity.user = filter.user;
-        }
-        if (filter.path) {
-            entity.path = filter.path;
-        }
-        if (filter.mimetype) {
-            entity.mimetype = filter.mimetype;
-        }
-        if (filter.isAvatar) {
-            entity.isAvatar = filter.isAvatar;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 
     public async update(entity: Attachment, filter: AttachmentFilter): Promise<Attachment> {
-        if (filter.isAvatar) {
-            entity.isAvatar = filter.isAvatar;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 }

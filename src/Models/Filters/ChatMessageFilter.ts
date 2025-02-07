@@ -3,18 +3,18 @@ import { Message } from "../Entities/Messages";
 
 
 export class ChatMessageFilter {
-    public chat: Chat | null = null;
-    public message: Message | null = null;
+    public chatId: Chat | null = null;
+    public messageId: Message | null = null;
 
     public withChat(id: number): ChatMessageFilter {
-        this.chat = new Chat();
-        this.chat.id = id;
+        this.chatId = new Chat();
+        this.chatId.id = id;
         return this;
     }
 
     public withMessage(id: number): ChatMessageFilter {
-        this.message = new Message();
-        this.message.id = id;
+        this.messageId = new Message();
+        this.messageId.id = id;
         return this;
     }
 }

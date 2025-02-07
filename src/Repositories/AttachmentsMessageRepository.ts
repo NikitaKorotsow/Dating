@@ -67,23 +67,13 @@ export class AttachmentsMessageRepository {
     }
 
     public async create(filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
-            const entity: AttachmentMessage = await this._repository.create();
-            if (filter.attachment) {
-                entity.attachmentsId = filter.attachment;
-            }
-            if (filter.message) {
-                entity.messageId = filter.message;
-            }
-            return await this._repository.save(entity);
-        }
-    
+        const entity: AttachmentMessage = await this._repository.create();
+        Object.assign(entity, filter);
+        return await this._repository.save(entity);
+    }
+
     public async update(entity: AttachmentMessage, filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
-        if (filter.attachment) {
-            entity.attachmentsId = filter.attachment;
-        }
-        if (filter.message) {
-            entity.messageId = filter.message;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 }

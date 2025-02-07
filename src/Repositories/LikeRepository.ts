@@ -68,22 +68,12 @@ export class LikeRepository {
 
     public async create(filter: LikeFilter): Promise<Like> {
         const entity: Like = await this._repository.create();
-        if (filter.to) {
-            entity.to = filter.to;
-        }
-        if (filter.from) {
-            entity.from = filter.from;
-        }
-        if (filter.deletedDate) {
-            entity.deletedDate = filter.deletedDate;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 
     public async update(entity: Like, filter: LikeFilter): Promise<Like> {
-        if (filter.deletedDate) {
-            entity.deletedDate = filter.deletedDate;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 }

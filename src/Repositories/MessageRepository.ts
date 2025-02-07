@@ -64,40 +64,12 @@ export class MessageRepository {
 
     public async create(filter: MessageFilter): Promise<Message> {
         const entity: Message = await this._repository.create();
-        if (filter.to) {
-            entity.toId = filter.to;
-        }
-        if (filter.from) {
-            entity.fromId = filter.from;
-        }
-        if (filter.content) {
-            entity.content = filter.content;
-        }
-        if (filter.isDeleted) {
-            entity.isDeleted = filter.isDeleted;
-        }
-        if (filter.updatedDate) {
-            entity.updatedDate = filter.updatedDate;
-        }
-        if (filter.deletedDate) {
-            entity.deletedDate = filter.deletedDate;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
-    
+
     public async update(entity: Message, filter: MessageFilter): Promise<Message> {
-        if (filter.content) {
-            entity.content = filter.content;
-        }
-        if (filter.isDeleted) {
-            entity.isDeleted = filter.isDeleted;
-        }
-        if (filter.updatedDate) {
-            entity.updatedDate = filter.updatedDate;
-        }
-        if (filter.deletedDate) {
-            entity.deletedDate = filter.deletedDate;
-        }
+        Object.assign(entity, filter);
         return await this._repository.save(entity);
     }
 }

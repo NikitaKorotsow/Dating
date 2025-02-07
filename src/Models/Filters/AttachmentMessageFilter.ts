@@ -3,18 +3,18 @@ import { Message } from "../Entities/Messages";
 
 
 export class AttachmentMessageFilter {
-    public attachment: Attachment | null = null;
-    public message: Message | null = null;
+    public attachmentsId: Attachment | null = null;
+    public messageId: Message | null = null;
 
     public withAttachment(id: number): AttachmentMessageFilter {
-        this.attachment = new Attachment();
-        this.attachment.id = id;
+        this.attachmentsId = new Attachment();
+        this.attachmentsId.id = id;
         return this;
     }
 
     public withMessage(id: number): AttachmentMessageFilter {
-        this.message = new Message();
-        this.message.id = id;
+        this.messageId = new Message();
+        this.messageId.id = id;
         return this;
     }
 }
