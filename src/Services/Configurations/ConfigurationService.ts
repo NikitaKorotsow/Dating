@@ -2,13 +2,23 @@ import { config } from 'dotenv';
 config();
 
 export class ConfigurationService {
+    //GeneraterCrypt
     public readonly SECRET_KEY: string;
+    //Database
     public readonly DATABASE_HOST: string;
     public readonly DATABASE_TYPE: string;
     public readonly DATABASE_PORT: number;
     public readonly DATABASE_NAME: string;
     public readonly DATABASE_PASSWORD: string;
     public readonly DATABASE_USER: string;
+    //Auth
+    public readonly LOGIN_MIN_LENGTH: number;
+    public readonly PASSWORD_MIN_LENGTH: number;
+    public readonly TOKEN: string;
+    public readonly TOKEN_LIFE_TIME: string;
+
+
+
 
     constructor() {
         this.SECRET_KEY = process.env.SECRET_KEY as string;

@@ -5,12 +5,12 @@ import { ConfigurationService } from "../../Services/Configurations/Configuratio
 export class GeneraterCrypt {
     private readonly _configurationService: ConfigurationService = configurationService;
 
-    static encrypt(data: string): string {
+    public encrypt(data: string): string {
         const thisObj = new GeneraterCrypt();
         return CryptoJS.AES.encrypt(data, thisObj._configurationService.SECRET_KEY).toString();
     }
 
-    static decrypt(data: string): string {
+    public decrypt(data: string): string {
         const thisObj = new GeneraterCrypt();
         return CryptoJS.AES.decrypt(data, thisObj._configurationService.SECRET_KEY).toString(CryptoJS.enc.Utf8);
     }

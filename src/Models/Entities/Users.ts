@@ -18,28 +18,28 @@ export class User extends BaseEntity {
 
     @Column({
         type: 'int',
-        nullable: false,
+        nullable: true,
         name: 'age'
     })
     age: number;
 
     @Column({
         type: 'text',
-        nullable: false,
+        nullable: true,
         name: 'city'
     })
     city: string;
 
     @Column({
         type: 'text',
-        nullable: false,
+        nullable: true,
         name: 'gender'
     })
     gender: string;
 
     @Column({
         type: 'boolean',
-        nullable: false,
+        nullable: true,
         name: 'is_deleted'
     })
     isDeleted: boolean;
@@ -61,6 +61,13 @@ export class User extends BaseEntity {
     @Column({
         type: 'text',
         nullable: false,
+        name: 'email'
+    })
+    email: string;
+
+    @Column({
+        type: 'text',
+        nullable: true,
         name: 'name'
     })
     name: string;

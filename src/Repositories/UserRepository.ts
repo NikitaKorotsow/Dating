@@ -77,6 +77,31 @@ export class UserRepository {
             return null;
         }
     }
+    public async getByEmail(email: string): Promise<User | null> {
+        try {
+            return await this._repository.findOne({
+                where: {
+                    email: email,
+                }
+            });
+        } catch (error) {
+            return null;
+        }
+    }
+
+
+    public async getByLogin(login: string): Promise<User | null> {
+        try {
+            return await this._repository.findOne({
+                where: {
+                    login: login,
+                }
+            });
+        } catch (error) {
+            return null;
+        }
+    }
+
 
     public async create(filter: UserFilter): Promise<User> {
         const entity: User = await this._repository.create();

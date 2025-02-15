@@ -5,6 +5,7 @@ export class UserFilter {
     public isDeleted: boolean | null = null;
     public login: string | null = null;
     public password: string | null = null;
+    public email: string | null = null;
     public name: string | null = null;
 
     public withAge(age: number): UserFilter {
@@ -34,6 +35,10 @@ export class UserFilter {
 
     public withPassword(str: string): UserFilter {
         this.password = str;
+        return this;
+    }
+    public withEmail(str: string): UserFilter {
+        this.email = str;
         return this;
     }
 

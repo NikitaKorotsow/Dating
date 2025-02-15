@@ -1,4 +1,4 @@
-export interface IErrorResponse<T> {
+export interface ISuccessResponse<T> {
     message: string,
     code: number,
     result: null | T,
