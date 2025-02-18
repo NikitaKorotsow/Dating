@@ -1,9 +1,9 @@
 import { User } from "../Entities/Users";
 
 export class ChatFilter {
-    public toId: User | null = null;
-    public fromId: User | null = null;
-    public title: string | null = null;
+    public toId: User;
+    public fromId: User;
+    public title: string;
 
     public withTo(toId: number): ChatFilter {
         this.toId = new User();

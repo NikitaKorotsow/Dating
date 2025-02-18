@@ -64,12 +64,22 @@ export class MessageRepository {
 
     public async create(filter: MessageFilter): Promise<Message> {
         const entity: Message = await this._repository.create();
-        Object.assign(entity, filter);
+        entity['toId'] = filter['toId'];
+        entity['fromId'] = filter['fromId'];
+        entity['content'] = filter['content'];
+        entity['isDeleted'] = filter['isDeleted'];
+        entity['updatedDate'] = filter['updatedDate'];
+        entity['deletedDate'] = filter['deletedDate'];
         return await this._repository.save(entity);
     }
 
     public async update(entity: Message, filter: MessageFilter): Promise<Message> {
-        Object.assign(entity, filter);
+        entity['toId'] = filter['toId'];
+        entity['fromId'] = filter['fromId'];
+        entity['content'] = filter['content'];
+        entity['isDeleted'] = filter['isDeleted'];
+        entity['updatedDate'] = filter['updatedDate'];
+        entity['deletedDate'] = filter['deletedDate'];
         return await this._repository.save(entity);
     }
 }

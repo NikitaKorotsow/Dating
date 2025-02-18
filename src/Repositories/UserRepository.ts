@@ -105,12 +105,24 @@ export class UserRepository {
 
     public async create(filter: UserFilter): Promise<User> {
         const entity: User = await this._repository.create();
-        Object.assign(entity, filter);
+        entity['age'] = filter['age'];
+        entity['city'] = filter['city'];
+        entity['gender'] = filter['gender'];
+        entity['isDeleted'] = filter['isDeleted'];
+        entity['login'] = filter['login'];
+        entity['email'] = filter['email'];
+        entity['name'] = filter['name'];
         return await this._repository.save(entity);
     }
 
     public async update(entity: User, filter: UserFilter): Promise<User> {
-        Object.assign(entity, filter);
+        entity['age'] = filter['age'];
+        entity['city'] = filter['city'];
+        entity['gender'] = filter['gender'];
+        entity['isDeleted'] = filter['isDeleted'];
+        entity['login'] = filter['login'];
+        entity['email'] = filter['email'];
+        entity['name'] = filter['name'];
         return await this._repository.save(entity);
     }
 }

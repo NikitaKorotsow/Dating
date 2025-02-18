@@ -3,8 +3,8 @@ import { Message } from "../Entities/Messages";
 
 
 export class AttachmentMessageFilter {
-    public attachmentsId: Attachment | null = null;
-    public messageId: Message | null = null;
+    public attachmentsId: Attachment;
+    public messageId: Message;
 
     public withAttachment(id: number): AttachmentMessageFilter {
         this.attachmentsId = new Attachment();

@@ -1,10 +1,10 @@
 import { User } from "../Entities/Users";
 
 export class AttachmentFilter {
-    public user: User | null = null;
-    public path: string | null = null;
-    public mimetype: string | null = null;
-    public isAvatar: boolean | null = null;
+    public user: User;
+    public path: string;
+    public mimetype: string;
+    public isAvatar: boolean;
 
     public withUser(id: number): AttachmentFilter {
         this.user = new User();

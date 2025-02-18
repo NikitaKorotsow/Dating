@@ -69,12 +69,18 @@ export class AttachmentsRepository {
 
     public async create(filter: AttachmentFilter): Promise<Attachment> {
         const entity: Attachment = await this._repository.create();
-        Object.assign(entity, filter);
+        entity['user'] = filter['user'];
+        entity['path'] = filter['path'];
+        entity['mimetype'] = filter['mimetype'];
+        entity['isAvatar'] = filter['isAvatar'];
         return await this._repository.save(entity);
     }
 
     public async update(entity: Attachment, filter: AttachmentFilter): Promise<Attachment> {
-        Object.assign(entity, filter);
+        entity['user'] = filter['user'];
+        entity['path'] = filter['path'];
+        entity['mimetype'] = filter['mimetype'];
+        entity['isAvatar'] = filter['isAvatar'];
         return await this._repository.save(entity);
     }
 }

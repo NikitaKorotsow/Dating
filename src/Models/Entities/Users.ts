@@ -21,28 +21,28 @@ export class User extends BaseEntity {
         nullable: true,
         name: 'age'
     })
-    age: number;
+    age: number | null;
 
     @Column({
         type: 'text',
         nullable: true,
         name: 'city'
     })
-    city: string;
+    city: string | null;
 
     @Column({
         type: 'text',
         nullable: true,
         name: 'gender'
     })
-    gender: string;
+    gender: string | null;
 
     @Column({
         type: 'boolean',
         nullable: true,
         name: 'is_deleted'
     })
-    isDeleted: boolean;
+    isDeleted: boolean | null;
 
     @Column({
         type: 'text',
@@ -70,7 +70,7 @@ export class User extends BaseEntity {
         nullable: true,
         name: 'name'
     })
-    name: string;
+    name: string | null;
 
     @OneToMany(() => Attachment, attachment => attachment.user)
     attachments: Attachment[]

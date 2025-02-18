@@ -1,12 +1,12 @@
 import { User } from "../Entities/Users";
 
 export class MessageFilter {
-    public toId: User | null = null;
-    public fromId: User | null = null;
-    public content: string | null = null;
-    public isDeleted: boolean | null = null;
-    public updatedDate: string | null = null;
-    public deletedDate: string | null = null;
+    public toId: User;
+    public fromId: User;
+    public content: string;
+    public isDeleted: boolean;
+    public updatedDate: string;
+    public deletedDate: string;
 
     public withTo(toId: number): MessageFilter {
         this.toId = new User();

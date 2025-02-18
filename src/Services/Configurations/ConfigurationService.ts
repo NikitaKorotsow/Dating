@@ -15,7 +15,7 @@ export class ConfigurationService {
     public readonly LOGIN_MIN_LENGTH: number;
     public readonly PASSWORD_MIN_LENGTH: number;
     public readonly TOKEN: string;
-    public readonly TOKEN_LIFE_TIME: string;
+    public readonly TOKEN_LIVE_TIME: string;
 
 
 
@@ -28,5 +28,6 @@ export class ConfigurationService {
         this.DATABASE_NAME = process.env.DATABASE_NAME as string;
         this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD as string;
         this.DATABASE_USER = process.env.DATABASE_USER as string;
+        this.TOKEN_LIVE_TIME = process.env.SECRET_KEY as string;
     }
 }
