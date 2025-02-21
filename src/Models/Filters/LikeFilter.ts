@@ -1,9 +1,9 @@
 import { User } from "../Entities/Users";
 
 export class LikeFilter {
-    public to: User;
-    public from: User;
-    public deletedDate: string;
+    public to: User | null = null;
+    public from: User | null = null;
+    public deletedDate: string | null = null;
 
     public withTo(toId: number): LikeFilter {
         this.to = new User();

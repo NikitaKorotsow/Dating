@@ -3,8 +3,8 @@ import { Message } from "../Entities/Messages";
 
 
 export class ChatMessageFilter {
-    public chatId: Chat;
-    public messageId: Message;
+    public chatId: Chat | null = null;
+    public messageId: Message | null = null;
 
     public withChat(id: number): ChatMessageFilter {
         this.chatId = new Chat();

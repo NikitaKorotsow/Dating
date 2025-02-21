@@ -3,9 +3,9 @@ export class UserFilter {
     public city: string | null = null;
     public gender: string | null = null;
     public isDeleted: boolean | null = null;
-    public login: string;
-    public password: string;
-    public email: string;
+    public login: string | null = null;
+    public password: string | null = null;
+    public email: string | null = null;
     public name: string | null = null;
 
     public withAge(age: number): UserFilter {

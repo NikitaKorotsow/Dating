@@ -60,7 +60,7 @@ export class User extends BaseEntity {
 
     @Column({
         type: 'text',
-        nullable: false,
+        nullable: true,
         name: 'email'
     })
     email: string;

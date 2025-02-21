@@ -64,22 +64,22 @@ export class MessageRepository {
 
     public async create(filter: MessageFilter): Promise<Message> {
         const entity: Message = await this._repository.create();
-        entity['toId'] = filter['toId'];
-        entity['fromId'] = filter['fromId'];
-        entity['content'] = filter['content'];
-        entity['isDeleted'] = filter['isDeleted'];
-        entity['updatedDate'] = filter['updatedDate'];
-        entity['deletedDate'] = filter['deletedDate'];
+        entity.toId = filter.toId ?? entity.toId;
+        entity.fromId = filter.fromId ?? entity.fromId;
+        entity.content = filter.content ?? entity.content;
+        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
+        entity.updatedDate = filter.updatedDate ?? entity.updatedDate;
+        entity.deletedDate = filter.deletedDate ?? entity.deletedDate;
         return await this._repository.save(entity);
     }
 
     public async update(entity: Message, filter: MessageFilter): Promise<Message> {
-        entity['toId'] = filter['toId'];
-        entity['fromId'] = filter['fromId'];
-        entity['content'] = filter['content'];
-        entity['isDeleted'] = filter['isDeleted'];
-        entity['updatedDate'] = filter['updatedDate'];
-        entity['deletedDate'] = filter['deletedDate'];
+        entity.toId = filter.toId ?? entity.toId;
+        entity.fromId = filter.fromId ?? entity.fromId;
+        entity.content = filter.content ?? entity.content;
+        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
+        entity.updatedDate = filter.updatedDate ?? entity.updatedDate;
+        entity.deletedDate = filter.deletedDate ?? entity.deletedDate;
         return await this._repository.save(entity);
     }
 }

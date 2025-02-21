@@ -105,24 +105,24 @@ export class UserRepository {
 
     public async create(filter: UserFilter): Promise<User> {
         const entity: User = await this._repository.create();
-        entity['age'] = filter['age'];
-        entity['city'] = filter['city'];
-        entity['gender'] = filter['gender'];
-        entity['isDeleted'] = filter['isDeleted'];
-        entity['login'] = filter['login'];
-        entity['email'] = filter['email'];
-        entity['name'] = filter['name'];
+        entity.age = filter.age ?? entity.age;
+        entity.city = filter.city ?? entity.city;
+        entity.gender = filter.gender ?? entity.gender;
+        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
+        entity.login = filter.login ?? entity.login;
+        entity.email = filter.email ?? entity.email;
+        entity.name = filter.name ?? entity.name;
         return await this._repository.save(entity);
     }
 
     public async update(entity: User, filter: UserFilter): Promise<User> {
-        entity['age'] = filter['age'];
-        entity['city'] = filter['city'];
-        entity['gender'] = filter['gender'];
-        entity['isDeleted'] = filter['isDeleted'];
-        entity['login'] = filter['login'];
-        entity['email'] = filter['email'];
-        entity['name'] = filter['name'];
+        entity.age = filter.age ?? entity.age;
+        entity.city = filter.city ?? entity.city;
+        entity.gender = filter.gender ?? entity.gender;
+        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
+        entity.login = filter.login ?? entity.login;
+        entity.email = filter.email ?? entity.email;
+        entity.name = filter.name ?? entity.name;
         return await this._repository.save(entity);
     }
 }

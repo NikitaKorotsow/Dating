@@ -68,14 +68,14 @@ export class ChatMessageRepository {
 
     public async create(filter: ChatMessageFilter): Promise<ChatMessage> {
         const entity: ChatMessage = await this._repository.create();
-        entity['chatId'] = filter['chatId'];
-        entity['messageId'] = filter['messageId'];
+        entity.chatId = filter.chatId ?? entity.chatId
+        entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }
 
     public async update(entity: ChatMessage, filter: ChatMessageFilter): Promise<ChatMessage> {
-        entity['chatId'] = filter['chatId'];
-        entity['messageId'] = filter['messageId'];
+        entity.chatId = filter.chatId ?? entity.chatId
+        entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }
 }

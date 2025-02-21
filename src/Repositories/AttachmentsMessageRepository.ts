@@ -68,14 +68,14 @@ export class AttachmentsMessageRepository {
 
     public async create(filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
         const entity: AttachmentMessage = await this._repository.create();
-        entity['attachmentsId'] = filter['attachmentsId'];
-        entity['messageId'] = filter['messageId'];
+        entity.attachmentsId = filter.attachmentsId ?? entity.attachmentsId;
+        entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }
 
     public async update(entity: AttachmentMessage, filter: AttachmentMessageFilter): Promise<AttachmentMessage> {
-        entity['attachmentsId'] = filter['attachmentsId'];
-        entity['messageId'] = filter['messageId'];
+        entity.attachmentsId = filter.attachmentsId ?? entity.attachmentsId;
+        entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }
 }

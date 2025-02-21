@@ -1,9 +1,6 @@
-version: '4.28'
-
 services:
-  redis-server:
-    image: 'redis'
-  node-app:
-    build:
+  redis-serv:
+    image: redis:latest
+    container_name: redis-container
     ports:
-      "8080:80"
+      - "7777:6379"
