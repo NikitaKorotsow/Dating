@@ -4,11 +4,17 @@ import { GeneraterResponse } from "../Utils/Responses/GeneraterResponse";
 import { Redis } from "ioredis";
 
 export class RedisService {
-    constructor(
-        private readonly _configurationService: ConfigurationService,
-        private readonly _generaterResponse: GeneraterResponse,
-    ) { }
+    private readonly _configurationService: ConfigurationService;
+    private readonly _generaterResponse: GeneraterResponse;
 
+    constructor(
+        configurationService: ConfigurationService,
+        generaterResponse: GeneraterResponse
+    ) {
+        this._configurationService = configurationService;
+        this._generaterResponse = generaterResponse;
+    }
+ // test pr
     public connect(host: string, port: number, password: string): Redis | null{
         try{
             return new Redis(port, host);
@@ -16,9 +22,9 @@ export class RedisService {
             return null;
         }
     }
-    public async set(redisConnect: Redis, key: string, token: string): Promise<string | null>{
+    public async set(redisConnect: Redis, key: string, value: string): Promise<string | null>{
         try {
-            return await redisConnect.set(key, token);
+            return await redisConnect.set(key, value);
         } catch(error){
             return null;
         }

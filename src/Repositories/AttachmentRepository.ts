@@ -69,10 +69,13 @@ export class AttachmentsRepository {
 
     public async create(filter: AttachmentFilter): Promise<Attachment> {
         const entity: Attachment = await this._repository.create();
-        entity.user = filter.user ?? entity.user;
-        entity.path = filter.path ?? entity.path;
-        entity.mimetype = filter.mimetype ?? entity.mimetype;
-        entity.isAvatar = filter.isAvatar ?? entity.isAvatar;
+        Object.keys(filter).forEach((key) => {
+            if (entity) {
+                entity[key] = filter[key];
+            } else {
+                throw new Error(`Invalid key: ${key}`);
+            }
+        });
         return await this._repository.save(entity);
     }
 
