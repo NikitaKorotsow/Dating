@@ -14,8 +14,14 @@ export class ConfigurationService {
     //Auth
     public readonly LOGIN_MIN_LENGTH: number;
     public readonly PASSWORD_MIN_LENGTH: number;
-    public readonly TOKEN: string;
+    public readonly ACCESS_TOKEN: string;
+    public readonly REFRESH_TOKEN:string;
+
     public readonly TOKEN_LIVE_TIME: string;
+    //Redis
+    public readonly REDIS_HOST: string;
+    public readonly REDIS_PORT: number;
+    public readonly REDIS_PASSWORD: string;
 
 
 
@@ -29,5 +35,11 @@ export class ConfigurationService {
         this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD as string;
         this.DATABASE_USER = process.env.DATABASE_USER as string;
         this.TOKEN_LIVE_TIME = process.env.SECRET_KEY as string;
+        this.REDIS_HOST = process.env.REDIS_HOST as string;
+        this.REDIS_PORT = Number(process.env.REDIS_PORT);
+        this.REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;
+        this.ACCESS_TOKEN = process.env.ACCESS_TOKEN as string;
+        this.REFRESH_TOKEN = process.env.REFRESH_TOKEN as string;
+
     }
 }
