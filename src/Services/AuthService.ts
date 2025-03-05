@@ -5,7 +5,7 @@ import { GeneraterCrypt } from "../Utils/Generates/GeneraterCrypt";
 import { GeneraterResponse } from "../Utils/Responses/GeneraterResponse";
 import { IResponse } from "../Models/Interfaces/Responses/IResponse";
 import { TokenService } from "./TokenService";
-import { IUserData } from "../Models/Interfaces/IUserData";
+import { IUserAuthData } from "../Models/Interfaces/IUserAuthData";
 import { IToken } from "../Models/Interfaces/IToken";
 
 export class AuthService {
@@ -23,14 +23,8 @@ export class AuthService {
         this._tokenService = tokenService;
 
     }
-    // register
-    // login
-    // logout
-    // verifyToken
-    // refreshToken 
 
-
-    public async register(login: string, password: string): Promise<IResponse<IUserData | null>> {
+    public async register(login: string, password: string): Promise<IResponse<IUserAuthData | null>> {
         try {
             const existingLogin = await this._userRepository.getByLogin(login);
             if (!existingLogin) {
@@ -38,10 +32,13 @@ export class AuthService {
                 const user = await this._userRepository.create(new UserFilter()
                     .withLogin(login)
                     .withPassword(encryptPassword));
-                const tokens: IToken = this._tokenService.generateTokens(JSON.stringify(user.id));
-                
-                await this._tokenService.saveToken( JSON.stringify(user.id), tokens.refreshToken);
-                return GeneraterResponse.getResponse<IUserData>("success", 200, {user, tokens});
+                const tokens: IToken = this._tokenService.generateTokens(String(user.id));
+
+                await this._tokenService.saveToken(user.id, tokens.refreshToken);
+                return GeneraterResponse.getResponse<IUserAuthData>("success", 200, {
+                    userId: user.id,
+                    tokens: tokens,
+                });
             }
             else {
                 return GeneraterResponse.getResponse<null>("Логин занят", 400, null);
@@ -51,15 +48,18 @@ export class AuthService {
         }
     }
 
-    public async login(login: string, password: string): Promise<IResponse<IUserData | null>> {
+    public async login(login: string, password: string): Promise<IResponse<IUserAuthData | null>> {
         try {
             const user = await this._userRepository.getByLogin(login);
             if (user) {
                 const encryptPassword: string = GeneraterCrypt.encrypt(password);
                 if (encryptPassword === user.password) {
-                    const tokens: IToken = this._tokenService.generateTokens(JSON.stringify(user.id));
-                    await this._tokenService.saveToken(JSON.stringify(user.id), tokens.refreshToken);
-                    return GeneraterResponse.getResponse<IUserData>("Success", 200, {user, tokens});
+                    const tokens: IToken = this._tokenService.generateTokens(String(user.id));
+                    await this._tokenService.saveToken(user.id, tokens.refreshToken);
+                    return GeneraterResponse.getResponse<IUserAuthData>("Success", 200, {
+                        userId: user.id,
+                        tokens: tokens,
+                    });
                 } else {
                     return GeneraterResponse.getResponse<null>("Неверный пароль", 400, null);
                 }
@@ -71,9 +71,13 @@ export class AuthService {
         }
     }
 
-    public async logout(refreshToken: string): Promise<IResponse<number | null>> {
-        const result = await this._tokenService.removeToken(refreshToken)
-        return GeneraterResponse.getResponse('Success', 200, result);
+    public async logout(id: number): Promise<IResponse<number | null>> {
+        try{   
+            const result = await this._tokenService.removeToken(id)
+            return GeneraterResponse.getResponse('Success', 200, result);
+        } catch (error) {
+            return GeneraterResponse.getResponse<null>(`${error}`, 500, null)
+        }
     }
 
 }
