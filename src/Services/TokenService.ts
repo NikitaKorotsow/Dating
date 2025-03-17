@@ -1,11 +1,11 @@
-import * as jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken';
+import { IToken } from '../Models/Interfaces/IToken';
 import { RedisService } from './RedisService';
 import { ConfigurationService } from './Configurations/ConfigurationService';
-import { IToken } from '../Models/Interfaces/IToken';
 
 export class TokenService {
     private readonly _configurationService: ConfigurationService;
-    private readonly _redisService: RedisService
+    private readonly _redisService: RedisService;
     constructor(
         configurationService: ConfigurationService,
         redisService: RedisService,
@@ -24,8 +24,8 @@ export class TokenService {
     public async saveToken(id: number, refreshToken: string): Promise<string | null> {
         try {
 
-            return await this._redisService.setValue(String(id), refreshToken);
-        } catch (error) {
+            return await this._redisService.set(String(id), refreshToken);
+        } catch {
             return null;
         }
     }

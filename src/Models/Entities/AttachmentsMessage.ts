@@ -4,7 +4,7 @@ import {
     BaseEntity,
     ManyToOne,
     JoinColumn,
-} from "typeorm"
+} from "typeorm";
 import { Attachment } from "./Attachments";
 import { Message } from "./Messages";
 

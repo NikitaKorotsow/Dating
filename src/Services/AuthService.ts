@@ -1,12 +1,12 @@
-import { ConfigurationService } from "./Configurations/ConfigurationService";
 import { UserRepository } from "../Repositories/UserRepository";
 import { UserFilter } from "../Models/Filters/UserFilter";
 import { GeneraterCrypt } from "../Utils/Generates/GeneraterCrypt";
 import { GeneraterResponse } from "../Utils/Responses/GeneraterResponse";
 import { IResponse } from "../Models/Interfaces/Responses/IResponse";
-import { TokenService } from "./TokenService";
 import { IUserAuthData } from "../Models/Interfaces/IUserAuthData";
 import { IToken } from "../Models/Interfaces/IToken";
+import { TokenService } from "./TokenService";
+import { ConfigurationService } from "./Configurations/ConfigurationService";
 
 export class AuthService {
     private readonly _configurationService: ConfigurationService;
@@ -21,7 +21,6 @@ export class AuthService {
         this._configurationService = configurationService;
         this._userRepository = userRepository;
         this._tokenService = tokenService;
-
     }
 
     public async register(login: string, password: string): Promise<IResponse<IUserAuthData | null>> {
@@ -36,8 +35,16 @@ export class AuthService {
 
                 await this._tokenService.saveToken(user.id, tokens.refreshToken);
                 return GeneraterResponse.getResponse<IUserAuthData>("success", 200, {
-                    userId: user.id,
-                    tokens: tokens,
+                    user: {
+                        id: user.id,
+                        age: user.age,
+                        city: user.city,
+                        gender: user.gender,
+                        name: user.name,
+                        email: user.email,
+                        isDeleted: user.isDeleted,
+                    },
+                    tokens: tokens
                 });
             }
             else {
@@ -57,7 +64,15 @@ export class AuthService {
                     const tokens: IToken = this._tokenService.generateTokens(String(user.id));
                     await this._tokenService.saveToken(user.id, tokens.refreshToken);
                     return GeneraterResponse.getResponse<IUserAuthData>("Success", 200, {
-                        userId: user.id,
+                        user: {
+                            id: user.id,
+                            age: user.age,
+                            city: user.city,
+                            gender: user.gender,
+                            name: user.name,
+                            email: user.email,
+                            isDeleted: user.isDeleted,
+                        },
                         tokens: tokens,
                     });
                 } else {
@@ -72,11 +87,11 @@ export class AuthService {
     }
 
     public async logout(id: number): Promise<IResponse<number | null>> {
-        try{   
-            const result = await this._tokenService.removeToken(id)
+        try {
+            const result = await this._tokenService.removeToken(id);
             return GeneraterResponse.getResponse('Success', 200, result);
         } catch (error) {
-            return GeneraterResponse.getResponse<null>(`${error}`, 500, null)
+            return GeneraterResponse.getResponse<null>(`${error}`, 500, null);
         }
     }
 

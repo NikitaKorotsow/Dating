@@ -4,11 +4,11 @@ import {
     Column,
     BaseEntity,
     OneToMany
-} from "typeorm"
+} from "typeorm";
 import { Attachment } from './Attachments';
 import { Like } from "./Likes";
 import { Chat } from "./Chats";
-import { Message } from './Messages'
+import { Message } from './Messages';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -63,7 +63,7 @@ export class User extends BaseEntity {
         nullable: true,
         name: 'email'
     })
-    email: string;
+    email: string | null;
 
     @Column({
         type: 'text',
@@ -73,24 +73,24 @@ export class User extends BaseEntity {
     name: string | null;
 
     @OneToMany(() => Attachment, attachment => attachment.user)
-    attachments: Attachment[]
+    attachments: Attachment[];
 
     @OneToMany(() => Like, (like) => like.to)
-    likesTo: Like[]
+    likesTo: Like[];
 
     @OneToMany(() => Like, like => like.from)
-    likesFrom: Like[]
+    likesFrom: Like[];
 
     @OneToMany(() => Chat, chat => chat.toId)
-    chatTo: Chat[]
+    chatTo: Chat[];
 
     @OneToMany(() => Chat, chat => chat.fromId)
-    chatFrom: Chat[]
+    chatFrom: Chat[];
 
     @OneToMany(() => Message, message => message.toId)
-    messageTo: Message[]
+    messageTo: Message[];
 
     @OneToMany(() => Message, message => message.fromId)
-    messageFrom: Message[]
+    messageFrom: Message[];
 
 }

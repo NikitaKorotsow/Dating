@@ -4,7 +4,7 @@ import {
     BaseEntity,
     ManyToOne,
     JoinColumn,
-} from "typeorm"
+} from "typeorm";
 import { Chat } from "./Chats";
 import { Message } from "./Messages";
 

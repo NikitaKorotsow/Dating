@@ -17,7 +17,7 @@ export class LikeRepository {
                     'from'
                 ]
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -32,8 +32,8 @@ export class LikeRepository {
                     'to',
                     'from'
                 ]
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -46,8 +46,8 @@ export class LikeRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -60,8 +60,8 @@ export class LikeRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }

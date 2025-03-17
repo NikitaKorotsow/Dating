@@ -23,7 +23,7 @@ export class ConfigurationService {
     public readonly REDIS_HOST: string;
     public readonly REDIS_PORT: number;
     public readonly REDIS_PASSWORD: string;
-
+    public readonly EXPRESS_PORT: number;
 
     /* 
     .env
@@ -49,7 +49,7 @@ export class ConfigurationService {
         this.SECRET_KEY = process.env.SECRET_KEY as string;
         this.DATABASE_HOST = process.env.DATABASE_HOST as string;
         this.DATABASE_TYPE = process.env.DATABASE_TYPE as string;
-        this.DATABASE_PORT = Number(process.env.DATABASE_PORT)
+        this.DATABASE_PORT = Number(process.env.DATABASE_PORT);
         this.DATABASE_NAME = process.env.DATABASE_NAME as string;
         this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD as string;
         this.DATABASE_USER = process.env.DATABASE_USER as string;
@@ -60,6 +60,7 @@ export class ConfigurationService {
         this.REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;
         this.ACCESS_TOKEN = process.env.ACCESS_TOKEN as string;
         this.REFRESH_TOKEN = process.env.REFRESH_TOKEN as string;
+        this.EXPRESS_PORT = Number(process.env.EXPRESS_PORT);
 
     }
 }

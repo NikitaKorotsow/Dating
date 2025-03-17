@@ -1,8 +1,8 @@
-import { ConfigurationService } from "./Configurations/ConfigurationService";
 import {
     RedisClientType,
     createClient
-} from "redis"
+} from "redis";
+import { ConfigurationService } from "./Configurations/ConfigurationService";
 
 export class RedisService {
     private readonly _configurationService: ConfigurationService;
@@ -19,17 +19,16 @@ export class RedisService {
                 port: this._configurationService.REDIS_PORT,
             },
         });
-        this.client.on('ready', () => this.isConnected = true)
+        this.client.on('ready', () => this.isConnected = true);
+        this.client.on('error', () => this.isConnected = false);
     }
 
-
-
-    public async setValue(key: string, value: string): Promise<string | null> {
+    public async set(key: string, value: string): Promise<string | null> {
         if (this.isConnected === true) return await this.client.set(key, value);
         else return null;
     }
 
-    public async getValue(key: string): Promise<string | null> {
+    public async get(key: string): Promise<string | null> {
         if (this.isConnected === true) return await this.client.get(key);
         else return null;
     }

@@ -1,7 +1,6 @@
 import { Attachment } from "../Entities/Attachments";
 import { Message } from "../Entities/Messages";
 
-
 export class AttachmentMessageFilter {
     public attachmentsId: Attachment | null = null;
     public messageId: Message | null = null;

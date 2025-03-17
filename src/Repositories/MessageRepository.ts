@@ -2,7 +2,6 @@ import { Repository } from "typeorm";
 import { Message } from "../Models/Entities/Messages";
 import { MessageFilter } from "../Models/Filters/MessageFilter";
 
-
 export class MessageRepository {
     private readonly _repository: Repository<Message>;
 
@@ -13,7 +12,7 @@ export class MessageRepository {
     public async getAll(): Promise<Message[] | null> {
         try {
             return await this._repository.find();
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -28,8 +27,8 @@ export class MessageRepository {
                     'toId',
                     'fromId',
                 ]
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -42,8 +41,8 @@ export class MessageRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -56,8 +55,8 @@ export class MessageRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }

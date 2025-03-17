@@ -7,8 +7,8 @@ import {
     JoinColumn,
     Column,
     OneToMany
-} from "typeorm"
-import { User } from "./Users"
+} from "typeorm";
+import { User } from "./Users";
 import { ChatMessage } from "./ChatMessage";
 import { AttachmentMessage } from "./AttachmentsMessage";
 

@@ -17,7 +17,7 @@ export class ChatMessageRepository {
                     'messageId',
                 ]
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -32,8 +32,8 @@ export class ChatMessageRepository {
                     'chatId',
                     'messageId',
                 ]
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -46,8 +46,8 @@ export class ChatMessageRepository {
                         id: id
                     },
                 },
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -60,21 +60,21 @@ export class ChatMessageRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
 
     public async create(filter: ChatMessageFilter): Promise<ChatMessage> {
         const entity: ChatMessage = await this._repository.create();
-        entity.chatId = filter.chatId ?? entity.chatId
+        entity.chatId = filter.chatId ?? entity.chatId;
         entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }
 
     public async update(entity: ChatMessage, filter: ChatMessageFilter): Promise<ChatMessage> {
-        entity.chatId = filter.chatId ?? entity.chatId
+        entity.chatId = filter.chatId ?? entity.chatId;
         entity.messageId = filter.messageId ?? entity.messageId;
         return await this._repository.save(entity);
     }

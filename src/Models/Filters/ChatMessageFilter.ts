@@ -1,7 +1,6 @@
 import { Chat } from "../Entities/Chats";
 import { Message } from "../Entities/Messages";
 
-
 export class ChatMessageFilter {
     public chatId: Chat | null = null;
     public messageId: Message | null = null;

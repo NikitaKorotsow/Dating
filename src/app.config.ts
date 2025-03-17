@@ -1,5 +1,5 @@
-import { ConfigurationService } from "./Services/Configurations/ConfigurationService";
 import { DataSource } from "typeorm";
+import { ConfigurationService } from "./Services/Configurations/ConfigurationService";
 import { User } from "./Models/Entities/Users";
 import { Attachment } from "./Models/Entities/Attachments";
 import { Like } from "./Models/Entities/Likes";
@@ -41,7 +41,7 @@ export const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
     .then(async (data: DataSource) => {
-        console.log('Data Source has been initialized!');
+        console.log('Data Source has been initialized!', data);
     })
     .catch((error) => {
         console.error('Error during Data Source initialization:', error);

@@ -6,8 +6,8 @@ import {
     CreateDateColumn,
     JoinColumn,
     Column
-} from "typeorm"
-import { User } from "./Users"
+} from "typeorm";
+import { User } from "./Users";
 
 @Entity('likes')
 export class Like extends BaseEntity {
@@ -15,27 +15,27 @@ export class Like extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(()=> User, user => user.id)
+    @ManyToOne(() => User, user => user.id)
     @JoinColumn({
-        name:'to_id'
+        name: 'to_id'
     })
     to: User;
 
-    @ManyToOne(()=> User, user => user.id)
+    @ManyToOne(() => User, user => user.id)
     @JoinColumn({
-        name:'from_id'
+        name: 'from_id'
     })
     from: User;
 
     @CreateDateColumn({
         type: 'timestamp',
-        name:'created_date'
+        name: 'created_date'
     })
     createdDate: string;
 
     @Column({
         type: 'timestamp',
-        name:'deleted_date'
+        name: 'deleted_date'
     })
     deletedDate: string;
 }
