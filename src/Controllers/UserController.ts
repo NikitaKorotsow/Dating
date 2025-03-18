@@ -34,7 +34,7 @@ export class UserController extends Controller {
     }
 
     public updateProfile(req: Request) {
-        return this._userService.update(Number(req.params.id), Number(req.params.age), req.params.city, req.params.gender, Number(req.params.isDeleted), req.params.email, req.params.name);
+        return this._userService.update(Number(req.params.id), req.params.IUserInfo);
     }
 
     public deleteProfile(req: Request) {

@@ -23,19 +23,24 @@ export class AuthController extends Controller {
             path: '/login',
             method: 'post',
             handler: this.loginUser,
+        },
+        {
+            path: '/logout',
+            method: 'post',
+            handler: this.logoutUser,
         }
     ];
 
-    public registerUser(req: Request) {
+    private registerUser(req: Request) {
         return this._authSrvice.register(req.params.login, req.params.password);
     }
 
-    public loginUser(req: Request) {
+    private loginUser(req: Request) {
         return this._authSrvice.login(req.params.login, req.params.password);
 
     }
 
-    public logoutUser(req: Request) {
+    private logoutUser(req: Request) {
         return this._authSrvice.logout(Number(req.params.id));
     }
 }

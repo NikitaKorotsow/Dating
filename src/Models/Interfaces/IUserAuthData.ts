@@ -1,7 +1,7 @@
 import { IToken } from "./IToken";
 
-export interface IUserAuthData {
-    user: IUserInfo,
+export interface IUserAuthData<T> {
+    user: T,
     tokens: IToken,
 }
 

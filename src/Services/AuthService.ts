@@ -3,7 +3,7 @@ import { UserFilter } from "../Models/Filters/UserFilter";
 import { GeneraterCrypt } from "../Utils/Generates/GeneraterCrypt";
 import { GeneraterResponse } from "../Utils/Responses/GeneraterResponse";
 import { IResponse } from "../Models/Interfaces/Responses/IResponse";
-import { IUserAuthData } from "../Models/Interfaces/IUserAuthData";
+import { IUserAuthData, IUserInfo } from "../Models/Interfaces/IUserAuthData";
 import { IToken } from "../Models/Interfaces/IToken";
 import { TokenService } from "./TokenService";
 import { ConfigurationService } from "./Configurations/ConfigurationService";
@@ -23,7 +23,7 @@ export class AuthService {
         this._tokenService = tokenService;
     }
 
-    public async register(login: string, password: string): Promise<IResponse<IUserAuthData | null>> {
+    public async register(login: string, password: string): Promise<IResponse<IUserAuthData<number> | null>> {
         try {
             const existingLogin = await this._userRepository.getByLogin(login);
             if (!existingLogin) {
@@ -34,16 +34,8 @@ export class AuthService {
                 const tokens: IToken = this._tokenService.generateTokens(String(user.id));
 
                 await this._tokenService.saveToken(user.id, tokens.refreshToken);
-                return GeneraterResponse.getResponse<IUserAuthData>("success", 200, {
-                    user: {
-                        id: user.id,
-                        age: user.age,
-                        city: user.city,
-                        gender: user.gender,
-                        name: user.name,
-                        email: user.email,
-                        isDeleted: user.isDeleted,
-                    },
+                return GeneraterResponse.getResponse<IUserAuthData<number>>("success", 200, {
+                    user: user.id,
                     tokens: tokens
                 });
             }
@@ -55,7 +47,7 @@ export class AuthService {
         }
     }
 
-    public async login(login: string, password: string): Promise<IResponse<IUserAuthData | null>> {
+    public async login(login: string, password: string): Promise<IResponse<IUserAuthData<IUserInfo> | null>> {
         try {
             const user = await this._userRepository.getByLogin(login);
             if (user) {
@@ -63,7 +55,7 @@ export class AuthService {
                 if (encryptPassword === user.password) {
                     const tokens: IToken = this._tokenService.generateTokens(String(user.id));
                     await this._tokenService.saveToken(user.id, tokens.refreshToken);
-                    return GeneraterResponse.getResponse<IUserAuthData>("Success", 200, {
+                    return GeneraterResponse.getResponse<IUserAuthData<IUserInfo>>("Success", 200, {
                         user: {
                             id: user.id,
                             age: user.age,
