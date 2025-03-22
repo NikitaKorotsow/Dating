@@ -1,4 +1,4 @@
-const CryptoJS = require("crypto-js");
+import CryptoJS from "crypto-js";
 import { configurationService } from "../../app.config";
 import { ConfigurationService } from "../../Services/Configurations/ConfigurationService";
 

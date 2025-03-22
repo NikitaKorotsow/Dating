@@ -6,11 +6,11 @@ import {
     JoinColumn,
     Column,
     OneToMany
-} from "typeorm"
-import { User } from "./Users"
+} from "typeorm";
+import { User } from "./Users";
 import { ChatMessage } from "./ChatMessage";
 
-@Entity( 'chats')
+@Entity('chats')
 export class Chat extends BaseEntity {
 
     @PrimaryGeneratedColumn()

@@ -12,7 +12,7 @@ export class ChatRepository {
     public async getAll(): Promise<Chat[] | null> {
         try {
             return await this._repository.find();
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -27,8 +27,8 @@ export class ChatRepository {
                     'toId',
                     'fromId'
                 ]
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -39,8 +39,8 @@ export class ChatRepository {
                 where: {
                     title: title,
                 },
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }

@@ -12,7 +12,7 @@ export class AttachmentsRepository {
     public async getAll(): Promise<Attachment[] | null> {
         try {
             return await this._repository.find();
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -23,8 +23,8 @@ export class AttachmentsRepository {
                 where: {
                     id: id,
                 },
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -35,8 +35,8 @@ export class AttachmentsRepository {
                 where: {
                     isAvatar: isAvatar,
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -47,8 +47,8 @@ export class AttachmentsRepository {
                 where: {
                     mimetype: mimetype,
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -61,8 +61,8 @@ export class AttachmentsRepository {
                         id: id,
                     },
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }

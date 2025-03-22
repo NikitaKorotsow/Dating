@@ -5,8 +5,8 @@ import {
     BaseEntity,
     ManyToOne,
     JoinColumn
-} from "typeorm"
-import { User } from "./Users"
+} from "typeorm";
+import { User } from "./Users";
 
 @Entity('attachments')
 export class Attachment extends BaseEntity {
@@ -39,5 +39,5 @@ export class Attachment extends BaseEntity {
     @JoinColumn({
         name: 'user_id'
     })
-    user: User
+    user: User;
 }

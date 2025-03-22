@@ -17,7 +17,7 @@ export class AttachmentsMessageRepository {
                     'messageId',
                 ]
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -32,8 +32,8 @@ export class AttachmentsMessageRepository {
                     'attachmentsId',
                     'messageId',
                 ]
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -46,8 +46,8 @@ export class AttachmentsMessageRepository {
                         id: id
                     },
                 },
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -60,8 +60,8 @@ export class AttachmentsMessageRepository {
                         id: id
                     }
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }

@@ -12,7 +12,7 @@ export class UserRepository {
     public async getAll(): Promise<User[] | null> {
         try {
             return await this._repository.find();
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -23,8 +23,8 @@ export class UserRepository {
                 where: {
                     id: id,
                 },
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -35,8 +35,8 @@ export class UserRepository {
                 where: {
                     age: age,
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -48,7 +48,7 @@ export class UserRepository {
                     city: city,
                 }
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -60,8 +60,8 @@ export class UserRepository {
                     gender: gender,
                 }
 
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -72,8 +72,8 @@ export class UserRepository {
                 where: {
                     isDeleted: isDeleted,
                 }
-            })
-        } catch (error) {
+            });
+        } catch {
             return null;
         }
     }
@@ -84,11 +84,10 @@ export class UserRepository {
                     email: email,
                 }
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
-
 
     public async getByLogin(login: string): Promise<User | null> {
         try {
@@ -97,11 +96,10 @@ export class UserRepository {
                     login: login,
                 }
             });
-        } catch (error) {
+        } catch {
             return null;
         }
     }
-
 
     public async create(filter: UserFilter): Promise<User> {
         const entity: User = await this._repository.create();
