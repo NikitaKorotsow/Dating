@@ -7,6 +7,7 @@ import { IUserAuthData, IUserInfo } from "../Models/Interfaces/IUserAuthData";
 import { IToken } from "../Models/Interfaces/IToken";
 import { TokenService } from "./TokenService";
 import { ConfigurationService } from "./Configurations/ConfigurationService";
+import { User } from "../Models/Entities/Users";
 
 export class AuthService {
     private readonly _configurationService: ConfigurationService;
@@ -28,10 +29,12 @@ export class AuthService {
             const existingLogin = await this._userRepository.getByLogin(login);
             if (!existingLogin) {
                 const encryptPassword = GeneraterCrypt.encrypt(password);
-                const user = await this._userRepository.create(new UserFilter()
+                const user: User = await this._userRepository.create(new UserFilter()
                     .withLogin(login)
-                    .withPassword(encryptPassword));
-                const tokens: IToken = this._tokenService.generateTokens(String(user.id));
+                    .withPassword(encryptPassword)
+                );
+                console.log(user)
+                const tokens: IToken = this._tokenService.generateTokens(user.id.toString());
 
                 await this._tokenService.saveToken(user.id, tokens.refreshToken);
                 return GeneraterResponse.getResponse<IUserAuthData<number>>("success", 200, {

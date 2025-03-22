@@ -38,12 +38,13 @@ export class ConfigurationService {
     DATABASE_USER=postgres
 
     JWT_ACCESS_KEY=HxJ6hImgYdSg258gEnycP
-    JWT_REFRESH_KEY=HGR20uc6UOOowYVOZRpNx
+    JWT_REFRESH_KEY=HxJ6hImgYdSg258gEnycP
     LIFE_TME=3600
 
     REDIS_HOST=localhost
     REDIS_PORT=7777
-    REDIS_PASSWORD= */
+    REDIS_PASSWORD=
+    */
 
     constructor() {
         this.SECRET_KEY = process.env.SECRET_KEY as string;

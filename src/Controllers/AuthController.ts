@@ -1,46 +1,24 @@
-import { Request } from "express";
-import { IRoute } from "../Models/Interfaces/IRoute";
-import { AuthService } from "../Services/AuthService";
+import { Request, Response } from "express";
+import { authService } from "../app.config";
 import Controller from "./Controller";
+import { IResponse } from "../Models/Interfaces/Responses/IResponse";
+import { IUserAuthData } from "../Models/Interfaces/IUserAuthData";
 
-export class AuthController extends Controller {
-
-    private readonly _authSrvice: AuthService;
-
-    constructor(authService: AuthService) {
-        super();
-        this._authSrvice = authService;
-    }
-
-    public routes: IRoute[] = [
-        {
-            path: '/register',
-            method: 'post',
-            handler: this.registerUser,
-        },
-
-        {
-            path: '/login',
-            method: 'post',
-            handler: this.loginUser,
-        },
-        {
-            path: '/logout',
-            method: 'post',
-            handler: this.logoutUser,
-        }
-    ];
-
-    private registerUser(req: Request) {
-        return this._authSrvice.register(req.params.login, req.params.password);
+export class AuthController {
+    public async register(req: Request, res: Response) {
+        const login: string = req.body.login as string;
+        const password: string = req.body.password as string;
+        const answer: IResponse<IUserAuthData<number> | null> = await authService.register(login, password);
+        await Controller.send<IResponse<IUserAuthData<number> | null>>(res, answer, answer.code);
+        return;
     }
 
     private loginUser(req: Request) {
-        return this._authSrvice.login(req.params.login, req.params.password);
+        return authService.login(req.params.login, req.params.password);
 
     }
 
     private logoutUser(req: Request) {
-        return this._authSrvice.logout(Number(req.params.id));
+        return authService.logout(Number(req.params.id));
     }
 }

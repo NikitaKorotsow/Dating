@@ -1,12 +1,8 @@
-import express from 'express';
-import {
-    userController,
-    authController
-} from './app.config';
+const express = require('express');
+import { authRouter } from "./Routes/Routes";
 
 const app = express();
-
-app.use(userController.register);
-app.use(authController.register);
+app.use(express.json());
+app.use('/auth', authRouter);
 
 export default app;

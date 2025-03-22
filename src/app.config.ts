@@ -47,7 +47,7 @@ export const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
     .then(async (data: DataSource) => {
-        console.log('Data Source has been initialized!', data);
+        console.log('Data Source has been initialized!');
     })
     .catch((error) => {
         console.error('Error during Data Source initialization:', error);
@@ -65,5 +65,6 @@ export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService);
 export const userService = new UserService(configurationService, userRepository);
-export const authController = new AuthController(authService);
+
+export const authController = new AuthController();
 export const userController = new UserController(userService);

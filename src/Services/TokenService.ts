@@ -16,8 +16,24 @@ export class TokenService {
 
     public generateTokens(payload: string): IToken {
 
-        const accessToken = jwt.sign(payload, this._configurationService.ACCESS_TOKEN, { expiresIn: this._configurationService.ACCESS_TOKEN_LIFE_TIME });
-        const refreshToken = jwt.sign(payload, this._configurationService.REFRESH_TOKEN, { expiresIn: this._configurationService.REFRESH_TOKEN_LIFE_TIME });
+        const accessToken = jwt.sign(
+            {
+                data: payload
+            },
+            this._configurationService.ACCESS_TOKEN,
+            {
+                expiresIn: this._configurationService.ACCESS_TOKEN_LIFE_TIME
+            }
+        );
+        const refreshToken = jwt.sign(
+            {
+                data: payload
+            },
+            this._configurationService.REFRESH_TOKEN,
+            {
+                expiresIn: this._configurationService.REFRESH_TOKEN_LIFE_TIME
+            }
+        );
         return { accessToken, refreshToken };
     }
 
