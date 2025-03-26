@@ -15,11 +15,11 @@ import { ChatRepository } from "./Repositories/ChatRepository";
 import { MessageRepository } from "./Repositories/MessageRepository";
 import { UserRepository } from "./Repositories/UserRepository";
 import { AuthController } from "./Controllers/AuthController";
-import { AuthService } from "./Services/AuthService";
-import { TokenService } from "./Services/TokenService";
-import { RedisService } from "./Services/RedisService";
+import { AuthService } from "./Services/Auth/AuthService";
+import { TokenService } from "./Services/Auth/TokenService";
+import { RedisService } from "./Services/Auth/RedisService";
 import { UserController } from "./Controllers/UserController";
-import { UserService } from "./Services/UserService";
+import { UserService } from "./Services/User/UserService";
 
 export const configurationService = new ConfigurationService();
 
@@ -46,7 +46,7 @@ export const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-    .then(async (data: DataSource) => {
+    .then(async () => {
         console.log('Data Source has been initialized!');
     })
     .catch((error) => {
@@ -67,4 +67,4 @@ export const authService = new AuthService(configurationService, userRepository,
 export const userService = new UserService(configurationService, userRepository);
 
 export const authController = new AuthController();
-export const userController = new UserController(userService);
+export const userController = new UserController();

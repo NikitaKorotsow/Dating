@@ -1,6 +1,6 @@
-const CryptoJS = require("crypto-js");
 import { configurationService } from "../../app.config";
 import { ConfigurationService } from "../../Services/Configurations/ConfigurationService";
+const CryptoJS = require('crypto-js');
 
 export class GeneraterCrypt {
     private readonly _configurationService: ConfigurationService = configurationService;

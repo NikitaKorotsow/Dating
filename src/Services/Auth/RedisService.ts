@@ -2,7 +2,7 @@ import {
     RedisClientType,
     createClient
 } from "redis";
-import { ConfigurationService } from "./Configurations/ConfigurationService";
+import { ConfigurationService } from "../Configurations/ConfigurationService";
 
 export class RedisService {
     private readonly _configurationService: ConfigurationService;

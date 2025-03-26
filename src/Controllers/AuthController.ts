@@ -1,24 +1,30 @@
 import { Request, Response } from "express";
 import { authService } from "../app.config";
-import Controller from "./Controller";
 import { IResponse } from "../Models/Interfaces/Responses/IResponse";
-import { IUserAuthData } from "../Models/Interfaces/IUserAuthData";
+import { IUserAuthData, IUserInfo } from "../Models/Interfaces/IUserAuthData";
+import Controller from "./Controller";
 
-export class AuthController {
+export class AuthController extends Controller {
     public async register(req: Request, res: Response) {
         const login: string = req.body.login as string;
         const password: string = req.body.password as string;
         const answer: IResponse<IUserAuthData<number> | null> = await authService.register(login, password);
-        await Controller.send<IResponse<IUserAuthData<number> | null>>(res, answer, answer.code);
+        await AuthController.send<IResponse<IUserAuthData<number> | null>>(res, answer, answer.code);
         return;
     }
 
-    private loginUser(req: Request) {
-        return authService.login(req.params.login, req.params.password);
-
+    public async login(req: Request, res: Response) {
+        const login: string = req.body.login as string;
+        const password: string = req.body.password as string;
+        const answer: IResponse<IUserAuthData<IUserInfo> | null> = await authService.login(login, password);
+        await AuthController.send<IResponse<IUserAuthData<IUserInfo> | null>>(res, answer, answer.code);
+        return;
     }
 
-    private logoutUser(req: Request) {
-        return authService.logout(Number(req.params.id));
+    public async logout(req: Request, res: Response) {
+        const id: number = req.body.id as number;
+        const answer: IResponse<number | null> = await authService.logout(id);
+        await AuthController.send<IResponse<number | null>>(res, answer, answer.code);
+        return;
     }
 }

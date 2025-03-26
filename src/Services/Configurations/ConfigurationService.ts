@@ -14,8 +14,8 @@ export class ConfigurationService {
     //Auth
     public readonly LOGIN_MIN_LENGTH: number;
     public readonly PASSWORD_MIN_LENGTH: number;
-    public readonly ACCESS_TOKEN: string;
-    public readonly REFRESH_TOKEN: string;
+    public readonly JWT_ACCESS_KEY: string;
+    public readonly JWT_REFRESH_KEY: string;
 
     public readonly REFRESH_TOKEN_LIFE_TIME: number;
     public readonly ACCESS_TOKEN_LIFE_TIME: number;
@@ -59,8 +59,8 @@ export class ConfigurationService {
         this.REDIS_HOST = process.env.REDIS_HOST as string;
         this.REDIS_PORT = Number(process.env.REDIS_PORT);
         this.REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;
-        this.ACCESS_TOKEN = process.env.ACCESS_TOKEN as string;
-        this.REFRESH_TOKEN = process.env.REFRESH_TOKEN as string;
+        this.JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY as string;
+        this.JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY as string;
         this.EXPRESS_PORT = Number(process.env.EXPRESS_PORT);
 
     }
