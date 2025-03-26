@@ -15,11 +15,11 @@ import { ChatRepository } from "./Repositories/ChatRepository";
 import { MessageRepository } from "./Repositories/MessageRepository";
 import { UserRepository } from "./Repositories/UserRepository";
 import { AuthController } from "./Controllers/AuthController";
-import { AuthService } from "./Services/AuthService";
-import { TokenService } from "./Services/TokenService";
-import { RedisService } from "./Services/RedisService";
+import { AuthService } from "./Services/Auth/AuthService";
+import { TokenService } from "./Services/Auth/TokenService";
+import { RedisService } from "./Services/Auth/RedisService";
 import { UserController } from "./Controllers/UserController";
-import { UserService } from "./Services/UserService";
+import { UserService } from "./Services/User/UserService";
 
 export const configurationService = new ConfigurationService();
 
@@ -46,8 +46,8 @@ export const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-    .then(async (data: DataSource) => {
-        console.log('Data Source has been initialized!', data);
+    .then(async () => {
+        console.log('Data Source has been initialized!');
     })
     .catch((error) => {
         console.error('Error during Data Source initialization:', error);
@@ -65,5 +65,6 @@ export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService);
 export const userService = new UserService(configurationService, userRepository);
-export const authController = new AuthController(authService);
-export const userController = new UserController(userService);
+
+export const authController = new AuthController();
+export const userController = new UserController();

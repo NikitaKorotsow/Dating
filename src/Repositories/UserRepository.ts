@@ -110,6 +110,8 @@ export class UserRepository {
         entity.login = filter.login ?? entity.login;
         entity.email = filter.email ?? entity.email;
         entity.name = filter.name ?? entity.name;
+        entity.login = filter.login ?? entity.login;
+        entity.password = filter.password ?? entity.password;
         return await this._repository.save(entity);
     }
 
@@ -118,7 +120,6 @@ export class UserRepository {
         entity.city = filter.city ?? entity.city;
         entity.gender = filter.gender ?? entity.gender;
         entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
-        entity.login = filter.login ?? entity.login;
         entity.email = filter.email ?? entity.email;
         entity.name = filter.name ?? entity.name;
         return await this._repository.save(entity);

@@ -1,13 +1,8 @@
-import { Application } from "express";
-import { IRoute } from "../Models/Interfaces/IRoute";
+import { Response } from 'express';
 
 abstract class Controller {
-    public abstract routes: IRoute[]
-
-    public register(app: Application): void {
-        for (const route of this.routes) {
-            app[route.method](route.path, route.handler);
-        }
+    static async send<T>(res: Response, data: T, code: number) {
+        res.status(code).json(data);
     }
 }
 

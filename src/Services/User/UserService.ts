@@ -1,9 +1,9 @@
-import { UserFilter } from "../Models/Filters/UserFilter";
-import { IUserInfo } from "../Models/Interfaces/IUserAuthData";
-import { IResponse } from "../Models/Interfaces/Responses/IResponse";
-import { UserRepository } from "../Repositories/UserRepository";
-import { GeneraterResponse } from "../Utils/Responses/GeneraterResponse";
-import { ConfigurationService } from "./Configurations/ConfigurationService";
+import { UserFilter } from "../../Models/Filters/UserFilter";
+import { IUserInfo } from "../../Models/Interfaces/IUserAuthData";
+import { IResponse } from "../../Models/Interfaces/Responses/IResponse";
+import { UserRepository } from "../../Repositories/UserRepository";
+import { GeneraterResponse } from "../../Utils/Responses/GeneraterResponse";
+import { ConfigurationService } from "../Configurations/ConfigurationService";
 
 export class UserService {
     public readonly _configurationService: ConfigurationService;
@@ -37,13 +37,12 @@ export class UserService {
         }
     }
 
-    public async update(id: number, userDataJson: string): Promise<IResponse<IUserInfo | null>> {
+    public async update(id: number, userData: UserFilter): Promise<IResponse<IUserInfo | null>> {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {
                 return GeneraterResponse.getResponse('Error', 400, null);
             }
-            const userData: UserFilter = JSON.parse(userDataJson) as UserFilter;
             await this._userRepository.update(user, userData);
             return GeneraterResponse.getResponse('Success', 200, {
                 id: user.id,
@@ -60,7 +59,7 @@ export class UserService {
 
     }
 
-    public async delete(id: number, isDeleted: number) {
+    public async delete(id: number, isDeleted: number): Promise<IResponse<IUserInfo | null>> {
         try {
             const user = await this._userRepository.getById(id);
             if (!user) {

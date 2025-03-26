@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
-import { IToken } from '../Models/Interfaces/IToken';
+import { IToken } from '../../Models/Interfaces/IToken';
+import { ConfigurationService } from '../Configurations/ConfigurationService';
 import { RedisService } from './RedisService';
-import { ConfigurationService } from './Configurations/ConfigurationService';
 
 export class TokenService {
     private readonly _configurationService: ConfigurationService;
@@ -16,8 +16,24 @@ export class TokenService {
 
     public generateTokens(payload: string): IToken {
 
-        const accessToken = jwt.sign(payload, this._configurationService.ACCESS_TOKEN, { expiresIn: this._configurationService.ACCESS_TOKEN_LIFE_TIME });
-        const refreshToken = jwt.sign(payload, this._configurationService.REFRESH_TOKEN, { expiresIn: this._configurationService.REFRESH_TOKEN_LIFE_TIME });
+        const accessToken = jwt.sign(
+            {
+                data: payload
+            },
+            this._configurationService.JWT_ACCESS_KEY,
+            {
+                expiresIn: this._configurationService.ACCESS_TOKEN_LIFE_TIME
+            }
+        );
+        const refreshToken = jwt.sign(
+            {
+                data: payload
+            },
+            this._configurationService.JWT_REFRESH_KEY,
+            {
+                expiresIn: this._configurationService.REFRESH_TOKEN_LIFE_TIME
+            }
+        );
         return { accessToken, refreshToken };
     }
 
@@ -40,7 +56,7 @@ export class TokenService {
 
     public checkAccessToken(token: string) {
         try {
-            return jwt.verify(token, this._configurationService.ACCESS_TOKEN);
+            return jwt.verify(token, this._configurationService.JWT_ACCESS_KEY);
         } catch {
             return null;
         }
@@ -48,7 +64,7 @@ export class TokenService {
 
     public checkRefreshToken(token: string) {
         try {
-            return jwt.verify(token, this._configurationService.REFRESH_TOKEN);
+            return jwt.verify(token, this._configurationService.JWT_REFRESH_KEY);
         } catch {
             return null;
         }
