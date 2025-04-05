@@ -22,6 +22,7 @@ export class UserRepository {
             return await this._repository.findOne({
                 where: {
                     id: id,
+                    isDeleted: false
                 },
             });
         } catch {

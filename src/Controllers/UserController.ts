@@ -15,39 +15,28 @@ export class UserController extends Controller {
     }
 
     public async updateProfile(req: Request, res: Response) {
-        if (req.file) {
-            const id: number = req.body.id as number;
-            const userData = new UserFilter();
-            userData.age = req.body.age as number;
-            userData.city = req.body.city as string;
-            userData.email = req.body.email as string;
-            userData.gender = req.body.gender as string;
-            userData.name = req.body.name as string;
-            const isAvatar = req.body.isAvatar as number;
-
-            const answer: IResponse<IUserInfo | null> = await userService.update(id, userData, req.file, Boolean(isAvatar));
-            await UserController.send<IResponse<IUserInfo | null>>(res, answer, answer.code);
-            return;
-        } else {
-            const id: number = req.body.id as number;
-            const userData = new UserFilter();
-            userData.age = req.body.age as number;
-            userData.city = req.body.city as string;
-            userData.email = req.body.email as string;
-            userData.gender = req.body.gender as string;
-            userData.name = req.body.name as string;
-            const answer: IResponse<IUserInfo | null> = await userService.update(id, userData);
-            await UserController.send<IResponse<IUserInfo | null>>(res, answer, answer.code);
-            return;
-        }
+        const id: number = req.body.id as number;
+        const userData = new UserFilter()
+            .withAge(Number(req.body.age))
+            .withCity(req.body.city)
+            .withGender(req.body.gender)
+            .withEmail(req.body.email)
+            .withName(req.body.name)
+        const answer: IResponse<boolean | null> = await userService.update(
+            id,
+            userData, 
+            req.file ? req.file : null,
+        );
+        await UserController.send<IResponse<boolean | null>>(res, answer, answer.code);
+        return;
 
     }
 
     public async deleteProfile(req: Request, res: Response) {
         const id: number = req.body.id as number;
-        const isDeleted: number = req.body.isDeleted as number;
-        const answer: IResponse<IUserInfo | null> = await userService.delete(id, isDeleted);
-        await UserController.send<IResponse<IUserInfo | null>>(res, answer, answer.code);
+        const isDeleted: boolean = JSON.parse(req.body.isDeleted as string);
+        const answer: IResponse<boolean | null> = await userService.delete(id, isDeleted);
+        await UserController.send<IResponse<boolean | null>>(res, answer, answer.code);
         return;
     }
 
