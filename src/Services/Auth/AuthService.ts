@@ -67,6 +67,7 @@ export class AuthService {
                             name: user.name,
                             email: user.email,
                             isDeleted: user.isDeleted,
+                            avatars: null,
                         },
                         tokens: tokens,
                     });

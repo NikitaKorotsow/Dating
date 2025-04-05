@@ -20,6 +20,8 @@ import { TokenService } from "./Services/Auth/TokenService";
 import { RedisService } from "./Services/Auth/RedisService";
 import { UserController } from "./Controllers/UserController";
 import { UserService } from "./Services/User/UserService";
+import { FileService } from "./Services/File/FileService";
+import { FileStorage } from "./Services/File/FileStorage";
 
 export const configurationService = new ConfigurationService();
 
@@ -61,10 +63,13 @@ export const messageRepository = new MessageRepository(AppDataSource.getReposito
 export const userRepository = new UserRepository(AppDataSource.getRepository(User));
 export const chatRepository = new ChatRepository(AppDataSource.getRepository(Chat));
 
+export const fileService = new FileService(configurationService);
+export const fileStorage = new FileStorage(fileService, attachmentRepository);
+
 export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService);
-export const userService = new UserService(configurationService, userRepository);
+export const userService = new UserService(configurationService, userRepository, fileStorage);
 
 export const authController = new AuthController();
 export const userController = new UserController();
