@@ -7,21 +7,25 @@ import { IUserAuthData, IUserInfo } from "../../Models/Interfaces/IUserAuthData"
 import { IToken } from "../../Models/Interfaces/IToken";
 import { User } from "../../Models/Entities/Users";
 import { ConfigurationService } from "../Configurations/ConfigurationService";
+import { FileStorage } from "../File/FileStorage";
 import { TokenService } from "./TokenService";
 
 export class AuthService {
     private readonly _configurationService: ConfigurationService;
     private readonly _userRepository: UserRepository;
     private readonly _tokenService: TokenService;
+    private readonly _fileStorage: FileStorage;
 
     constructor(
         configurationService: ConfigurationService,
         userRepository: UserRepository,
         tokenService: TokenService,
+        fileStorage: FileStorage,
     ) {
         this._configurationService = configurationService;
         this._userRepository = userRepository;
         this._tokenService = tokenService;
+        this._fileStorage = fileStorage;
     }
 
     public async register(login: string, password: string): Promise<IResponse<IUserAuthData<number> | null>> {
@@ -54,6 +58,7 @@ export class AuthService {
         try {
             const user = await this._userRepository.getByLogin(login);
             if (user) {
+                const avatars = await this._fileStorage.get(user.id);
                 const decryptPasswordFromDb: string = GeneraterCrypt.decrypt(user.password);
                 if (password === decryptPasswordFromDb) {
                     const tokens: IToken = this._tokenService.generateTokens(String(user.id));
@@ -67,7 +72,7 @@ export class AuthService {
                             name: user.name,
                             email: user.email,
                             isDeleted: user.isDeleted,
-                            avatars: null,
+                            avatars: avatars,
                         },
                         tokens: tokens,
                     });

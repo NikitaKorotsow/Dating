@@ -29,20 +29,23 @@ export class FileStorage {
     }
 
     public async set(file: Express.Multer.File, userId: number, isAvatar: boolean) {
-        const uploadDir = path.join('./FileStorage', 'profile_' + userId, Number(isAvatar) ? 'avatars' : 'files');
+        const uploadDir = path.join('./FileStorage', Number(isAvatar) ? 'avatars' : 'files', 'profile_' + userId);
+        this._fileService.createDirectoty(uploadDir);
         const avatar = this._fileService.createFile(uploadDir, file);
         await this._attachmentRepository.create(new AttachmentFilter()
             .withIsAvatar(isAvatar)
             .withMimetype(file.mimetype)
             .withUser(userId)
-            .withPath(uploadDir + file.originalname));
-        return [avatar];
+            .withPath(avatar.filePath));
+        return [avatar.fileread];
     }
 
     public async remove(id: number) {
         const attachment = await this._attachmentRepository.getById(id);
         if (attachment) {
-            return this._fileService.removeFile(attachment.path);
+            this._fileService.removeFile(attachment.path);
+            attachment.remove();
+            return true;
         } else {
             return null;
         }

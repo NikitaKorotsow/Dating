@@ -22,7 +22,6 @@ export class UserRepository {
             return await this._repository.findOne({
                 where: {
                     id: id,
-                    isDeleted: false
                 },
             });
         } catch {
@@ -117,12 +116,24 @@ export class UserRepository {
     }
 
     public async update(entity: User, filter: UserFilter): Promise<User> {
-        entity.age = filter.age ?? entity.age;
-        entity.city = filter.city ?? entity.city;
-        entity.gender = filter.gender ?? entity.gender;
-        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
-        entity.email = filter.email ?? entity.email;
-        entity.name = filter.name ?? entity.name;
+        if (filter.age) {
+            entity.age = filter.age;
+        }
+        if (filter.city) {
+            entity.city = filter.city;
+        }
+        if (filter.gender) {
+            entity.gender = filter.gender;
+        }
+        if (filter.isDeleted) {
+            entity.isDeleted = filter.isDeleted;
+        }
+        if (filter.email) {
+            entity.email = filter.email;
+        }
+        if (filter.name) {
+            entity.name = filter.name;
+        }
         return await this._repository.save(entity);
     }
 }

@@ -9,7 +9,7 @@ export class FileService {
         this._configurationService = configurationService;
     }
 
-    public createFile(_path: string, file: Express.Multer.File): Buffer {
+    public createFile(_path: string, file: Express.Multer.File) {
         const suffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const filePath = path.join(_path, file.fieldname + '-' + suffix + path.extname(file.originalname));
         try {
@@ -19,7 +19,7 @@ export class FileService {
             console.error('Ошибка при записи файла:', error);
         }
         const fileread = fs.readFileSync(filePath);
-        return fileread;
+        return { filePath, fileread };
     };
 
     public createDirectoty(path: string) {

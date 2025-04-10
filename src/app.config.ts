@@ -22,6 +22,8 @@ import { UserController } from "./Controllers/UserController";
 import { UserService } from "./Services/User/UserService";
 import { FileService } from "./Services/File/FileService";
 import { FileStorage } from "./Services/File/FileStorage";
+import { LikeController } from "./Controllers/LikeController";
+import { LikeService } from "./Services/Like/LikeService";
 
 export const configurationService = new ConfigurationService();
 
@@ -68,8 +70,10 @@ export const fileStorage = new FileStorage(fileService, attachmentRepository);
 
 export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
-export const authService = new AuthService(configurationService, userRepository, tokenService);
+export const authService = new AuthService(configurationService, userRepository, tokenService, fileStorage);
 export const userService = new UserService(configurationService, userRepository, fileStorage);
+export const likeService = new LikeService(configurationService, likeRepository, fileStorage);
 
 export const authController = new AuthController();
 export const userController = new UserController();
+export const likeController = new LikeController();

@@ -46,6 +46,7 @@ export class UserService {
     public async update(id: number, userData: UserFilter, file: Express.Multer.File | null = null): Promise<IResponse<boolean | null>> {
         try {
             const user = await this._userRepository.getById(id);
+            console.log(user);
             if (!user) {
                 return GeneraterResponse.getResponse('Error', 400, null);
             }
@@ -55,6 +56,7 @@ export class UserService {
             await this._userRepository.update(user, userData);
             return GeneraterResponse.getResponse('Success', 200, true);
         } catch (error) {
+            console.log("Ошибка тут");
             return GeneraterResponse.getResponse(`${error}`, 500, null);
         }
 
@@ -66,18 +68,18 @@ export class UserService {
             if (!user) {
                 return GeneraterResponse.getResponse('Error', 400, null);
             }
-            await this._userRepository.update(user, 
+            await this._userRepository.update(user,
                 new UserFilter()
                     .withIsDeleted(isDeleted)
             );
-            return GeneraterResponse.getResponse('Success', 200, true);
+            return GeneraterResponse.getResponse('Success', 200, isDeleted);
         } catch (error) {
             return GeneraterResponse.getResponse(`${error}`, 500, null);
         }
 
     }
 
-    public async deleteAvatar(id: number) {
+    public async deleteAvatar(id: number): Promise<IResponse<boolean | null>> {
         try {
             const answer = await this._fileStorage.remove(id);
             return GeneraterResponse.getResponse('Success', 200, answer);
