@@ -7,6 +7,8 @@ import { Chat } from "./Models/Entities/Chats";
 import { Message } from "./Models/Entities/Messages";
 import { AttachmentMessage } from "./Models/Entities/AttachmentsMessage";
 import { ChatMessage } from "./Models/Entities/ChatMessage";
+import { Notifications } from "./Models/Entities/Notifications";
+import { NotificationRepository } from "./Repositories/NotificationRepository";
 import { LikeRepository } from "./Repositories/LikeRepository";
 import { AttachmentsRepository } from "./Repositories/AttachmentRepository";
 import { AttachmentsMessageRepository } from "./Repositories/AttachmentsMessageRepository";
@@ -24,6 +26,8 @@ import { FileService } from "./Services/File/FileService";
 import { FileStorage } from "./Services/File/FileStorage";
 import { LikeController } from "./Controllers/LikeController";
 import { LikeService } from "./Services/Like/LikeService";
+import { NotificationService } from "./Services/Notifications/NotificationService";
+import server from './httpServer';
 
 export const configurationService = new ConfigurationService();
 
@@ -44,6 +48,7 @@ export const AppDataSource = new DataSource({
         Message,
         AttachmentMessage,
         ChatMessage,
+        Notifications,
     ],
     migrations: [],
     subscribers: [],
@@ -64,10 +69,12 @@ export const chatMessageRepository = new ChatMessageRepository(AppDataSource.get
 export const messageRepository = new MessageRepository(AppDataSource.getRepository(Message));
 export const userRepository = new UserRepository(AppDataSource.getRepository(User));
 export const chatRepository = new ChatRepository(AppDataSource.getRepository(Chat));
+export const notificationRepository = new NotificationRepository(AppDataSource.getRepository(Notifications));
 
 export const fileService = new FileService(configurationService);
 export const fileStorage = new FileStorage(fileService, attachmentRepository);
 
+export const notificationService = new NotificationService(server);
 export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService, fileStorage);

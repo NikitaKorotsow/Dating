@@ -23,8 +23,8 @@ export class AuthController extends Controller {
 
     public async logout(req: Request, res: Response) {
         const id: number = req.body.id as number;
-        const answer: IResponse<number | null> = await authService.logout(id);
-        await AuthController.send<IResponse<number | null>>(res, answer, answer.code);
+        const answer = await authService.logout(id);
+        await AuthController.send<IResponse<string | null>>(res, answer, answer.code);
         return;
     }
 }

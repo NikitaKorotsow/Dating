@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { IToken } from '../../Models/Interfaces/IToken';
 import { ConfigurationService } from '../Configurations/ConfigurationService';
 import { RedisService } from './RedisService';
@@ -14,7 +14,7 @@ export class TokenService {
         this._redisService = redisService;
     }
 
-    public generateTokens(payload: string): IToken {
+    public generateTokens(payload: string | jwt.JwtPayload): IToken {
 
         const accessToken = jwt.sign(
             {
@@ -37,16 +37,51 @@ export class TokenService {
         return { accessToken, refreshToken };
     }
 
-    public async saveToken(id: number, refreshToken: string): Promise<string | null> {
+    public async saveRefreshToken(id: number, token: string): Promise<string | null> {
         try {
 
-            return await this._redisService.set(String(id), refreshToken);
+            return await this._redisService.set(String(id), token);
         } catch {
             return null;
         }
     }
 
-    public async removeToken(id: number) {
+    public async getRefreshToken(id: number): Promise<string | null> {
+        try {
+            return await this._redisService.get(String(id));
+        } catch {
+            return null;
+        }
+    }
+
+    public saveAccessToken(id: number, token: string): string | null {
+        try {
+
+            localStorage.setItem(String(id), token);
+            return "Access token saved";
+        } catch {
+            return null;
+        }
+    }
+
+    public decodeToken(token: string) {
+        try {
+            return jwt.decode(token);
+        } catch {
+            return null;
+        }
+    }
+
+    public removeAccessToken(id: number) {
+        try {
+            localStorage.removeItem(String(id));
+            return "Access token removed";
+        } catch {
+            return null;
+        }
+    }
+
+    public async removeRefreshToken(id: number) {
         try {
             return await this._redisService.remove(String(id));
         } catch {

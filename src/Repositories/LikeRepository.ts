@@ -84,26 +84,19 @@ export class LikeRepository {
         entity.deletedDate = filter.deletedDate ?? entity.deletedDate;
         return await this._repository.save(entity);
     }
-    public async delete(from: number, to: number) {
+    public async delete(from: number, to: number): Promise<boolean> {
         try {
-            const entity = await this._repository.findOne({
-                where: {
-                    from: {
-                        id: from
-                    },
-                    to: {
-                        id: to
-                    }
+            await this._repository.delete({
+                from: {
+                    id: from
+                },
+                to: {
+                    id: to
                 }
             });
-            if (entity) {
-                this._repository.remove(entity);
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         } catch {
-            return null;
+            return false;
         }
     }
 }

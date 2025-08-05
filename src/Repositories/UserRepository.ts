@@ -77,6 +77,7 @@ export class UserRepository {
             return null;
         }
     }
+
     public async getByEmail(email: string): Promise<User | null> {
         try {
             return await this._repository.findOne({

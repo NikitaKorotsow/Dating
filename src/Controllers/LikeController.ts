@@ -6,8 +6,8 @@ import Controller from "./Controller";
 export class LikeController extends Controller {
 
     public async createLike(req: Request, res: Response) {
-        const to: number = JSON.parse(req.body.to as string);
-        const from: number = JSON.parse(req.body.from as string);
+        const to: number = Number(req.body.to);
+        const from: number = Number(req.body.from);
         const like = new LikeFilter()
             .withTo(to)
             .withFrom(from);
@@ -16,15 +16,21 @@ export class LikeController extends Controller {
     }
 
     public async deleteLike(req: Request, res: Response) {
-        const from = JSON.parse(req.body.from);
-        const to = JSON.parse(req.body.to);
+        const from: number = Number(req.body.from);
+        const to: number = Number(req.body.to);
         const answer = await likeService.delete(from, to);
         await LikeController.send(res, answer, answer.code);
     }
 
-    public async getLikesList(req: Request, res: Response) {
-        const to = JSON.parse(req.body.to);
-        const answer = await likeService.checkLikes(to);
+    public async getLikesListTo(req: Request, res: Response) {
+        const to: number = Number(req.body.to);
+        const answer = await likeService.getLikesTo(to);
+        await LikeController.send(res, answer, answer.code);
+    }
+
+    public async getLikesListFrom(req: Request, res: Response) {
+        const from: number = Number(req.body.from);
+        const answer = await likeService.getLikesFrom(from);
         await LikeController.send(res, answer, answer.code);
     }
 

@@ -1,5 +1,5 @@
+import express from 'express';
 import { authRouter, userRouter, likeRouter } from "./Routes/Routes";
-const express = require('express');
 
 const app = express();
 app.use(express.json());

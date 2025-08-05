@@ -19,20 +19,28 @@ export class RedisService {
                 port: this._configurationService.REDIS_PORT,
             },
         });
-        this.client.on('ready', () => this.isConnected = true);
-        this.client.on('error', () => this.isConnected = false);
+        this.client.connect();
+        this.client.on('ready', () => {
+            this.isConnected = true;
+        });
+        this.client.on('error', () => {
+            this.isConnected = false;
+        });
     }
 
     public async set(key: string, value: string): Promise<string | null> {
+        console.log(this.isConnected);
         if (this.isConnected === true) return await this.client.set(key, value);
         else return null;
     }
 
     public async get(key: string): Promise<string | null> {
+        console.log(this.isConnected);
         if (this.isConnected === true) return await this.client.get(key);
         else return null;
     }
     public async remove(key: string): Promise<number | null> {
+        console.log(this.isConnected);
         if (this.isConnected === true) return await this.client.del(key);
         else return null;
     }

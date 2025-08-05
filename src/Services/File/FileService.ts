@@ -15,8 +15,8 @@ export class FileService {
         try {
             fs.writeFileSync(filePath, file.buffer);
             console.log('Файл успешно сохранен');
-        } catch (error) {
-            console.error('Ошибка при записи файла:', error);
+        } catch {
+            console.error('Ошибка при записи файла:');
         }
         const fileread = fs.readFileSync(filePath);
         return { filePath, fileread };

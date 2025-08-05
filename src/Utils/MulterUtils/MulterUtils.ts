@@ -1,5 +1,6 @@
 import { FileFilterCallback } from 'multer';
-const multer = require('multer');
+import multer from 'multer';
+import { Request } from 'express';
 
 export const fileFilter = (
     request: Request,

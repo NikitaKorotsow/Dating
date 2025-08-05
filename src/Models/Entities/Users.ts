@@ -9,6 +9,7 @@ import { Attachment } from './Attachments';
 import { Like } from "./Likes";
 import { Chat } from "./Chats";
 import { Message } from './Messages';
+import { Notifications } from "./Notifications";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -92,5 +93,8 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Message, message => message.fromId)
     messageFrom: Message[];
+
+    @OneToMany(() => Notifications, notification => notification.to)
+    notification: Notifications[];
 
 }

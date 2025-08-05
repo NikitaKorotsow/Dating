@@ -18,7 +18,7 @@ export class UserController extends Controller {
         const id: number = req.body.id as number;
         const userData = new UserFilter()
             .withAge(Number(req.body.age))
-            .withCity(req.body?.city)
+            .withCity(req.body.city)
             .withGender(req.body.gender)
             .withEmail(req.body.email)
             .withName(req.body.name);

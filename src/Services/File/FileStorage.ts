@@ -28,7 +28,7 @@ export class FileStorage {
         return arrayFile;
     }
 
-    public async set(file: Express.Multer.File, userId: number, isAvatar: boolean) {
+    public async set(file: Express.Multer.File, userId: number, isAvatar: boolean): Promise<Buffer<ArrayBufferLike>[]> {
         const uploadDir = path.join('./FileStorage', Number(isAvatar) ? 'avatars' : 'files', 'profile_' + userId);
         this._fileService.createDirectoty(uploadDir);
         const avatar = this._fileService.createFile(uploadDir, file);
@@ -40,14 +40,14 @@ export class FileStorage {
         return [avatar.fileread];
     }
 
-    public async remove(id: number) {
+    public async remove(id: number): Promise<boolean> {
         const attachment = await this._attachmentRepository.getById(id);
         if (attachment) {
             this._fileService.removeFile(attachment.path);
             attachment.remove();
             return true;
         } else {
-            return null;
+            return false;
         }
     }
 }

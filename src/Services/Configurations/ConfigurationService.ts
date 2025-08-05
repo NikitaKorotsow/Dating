@@ -55,7 +55,7 @@ export class ConfigurationService {
         this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD as string;
         this.DATABASE_USER = process.env.DATABASE_USER as string;
         this.REFRESH_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) * 24 * 30; //30 d
-        this.ACCESS_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) / 6; // 10 m
+        this.ACCESS_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) / 6 / 10 / 2; // 1 m
         this.REDIS_HOST = process.env.REDIS_HOST as string;
         this.REDIS_PORT = Number(process.env.REDIS_PORT);
         this.REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;

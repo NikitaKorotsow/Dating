@@ -28,28 +28,57 @@ export class LikeService {
 
     }
 
-    public async delete(from: number, to: number): Promise<IResponse<boolean | null>> {
+    public async delete(from: number, to: number): Promise<IResponse<boolean>> {
         const answer = await this._likeRepository.delete(from, to);
         return GeneraterResponse.getResponse('Success', 200, answer);
     }
 
-    public async checkLikes(id: number): Promise<IResponse<ICardUser[] | null>> {
-        const cards: ICardUser[] | null = [];
-        const likes: Like[] | null = await this._likeRepository.getByToId(id);
-        if (likes) {
-            for (const like of likes) {
-                const user = like.from;
-                const userAvatars = await this._fileStorage.get(user.id);
-                cards.push({
-                    userId: user.id,
-                    age: user.age,
-                    city: user.city,
-                    name: user.name,
-                    avatars: userAvatars
-                });
+    public async getLikesTo(id: number): Promise<IResponse<ICardUser[] | null>> {
+        try {
+            const cards: ICardUser[] | null = [];
+            const likes: Like[] | null = await this._likeRepository.getByToId(id);
+            if (likes) {
+                for (const like of likes) {
+                    const user = like.from;
+                    const userAvatars = await this._fileStorage.get(user.id);
+                    cards.push({
+                        userId: user.id,
+                        age: user.age,
+                        city: user.city,
+                        name: user.name,
+                        avatars: userAvatars
+                    });
+                }
+                return GeneraterResponse.getResponse('Success', 200, cards);
             }
-            return GeneraterResponse.getResponse('Success', 200, cards);
+            return GeneraterResponse.getResponse('Success', 200, null);
+        } catch (error) {
+            return GeneraterResponse.getResponse(`${error}`, 500, null);
         }
-        return GeneraterResponse.getResponse('Success', 200, null);
+    }
+
+    public async getLikesFrom(id: number): Promise<IResponse<ICardUser[] | null>> {
+        try {
+            const cards: ICardUser[] | null = [];
+            const likes: Like[] | null = await this._likeRepository.getByFromId(id);
+            if (likes) {
+                for (const like of likes) {
+                    const user = like.to;
+                    const userAvatars = await this._fileStorage.get(user.id);
+                    cards.push({
+                        userId: user.id,
+                        age: user.age,
+                        city: user.city,
+                        name: user.name,
+                        avatars: userAvatars
+                    });
+                }
+                return GeneraterResponse.getResponse('Success', 200, cards);
+            }
+            return GeneraterResponse.getResponse('Success', 200, null);
+        } catch (error) {
+            return GeneraterResponse.getResponse(`${error}`, 500, null);
+        }
+
     }
 }
