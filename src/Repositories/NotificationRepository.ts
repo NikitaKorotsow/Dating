@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { Notifications } from "../Models/Entities/Notifications";
+import { NotificationsFilter } from "../Models/Filters/NotificationFilter";
 
 export class NotificationRepository {
     private readonly _repository: Repository<Notifications>;
@@ -75,5 +76,15 @@ export class NotificationRepository {
         } catch {
             return null;
         }
+    }
+
+    public async create(filter: NotificationsFilter): Promise<Notifications> {
+        const entity: Notifications = await this._repository.create();
+        entity.to = filter.to ?? entity.to;
+        entity.type = filter.type ?? entity.type;
+        entity.message = filter.message ?? entity.message;
+        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
+        entity.createdDate = filter.createdDate ?? entity.createdDate;
+        return await this._repository.save(entity);
     }
 }

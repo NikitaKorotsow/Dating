@@ -1,10 +1,16 @@
 import express from 'express';
-import { authRouter, userRouter, likeRouter } from "./Routes/Routes";
+import { createAuthRouter, createUserRouter, createLikeRouter } from "./Routes/Routes";
+import { authController, userController, tokenService, likeController } from './app.config';
+import { createJWTMiddleware } from './Middleware/JWTMiddleware';
 
-const app = express();
+console.log('app');
+export const app = express();
 app.use(express.json());
+
+const authRouter = createAuthRouter(authController);
+const userRouter = createUserRouter(userController, createJWTMiddleware(tokenService));
+const likeRouter = createLikeRouter(likeController, createJWTMiddleware(tokenService));
+
 app.use('/auth', authRouter);
 app.use('/profile', userRouter);
 app.use('/like', likeRouter);
-
-export default app;

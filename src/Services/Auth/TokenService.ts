@@ -54,28 +54,9 @@ export class TokenService {
         }
     }
 
-    public saveAccessToken(id: number, token: string): string | null {
-        try {
-
-            localStorage.setItem(String(id), token);
-            return "Access token saved";
-        } catch {
-            return null;
-        }
-    }
-
     public decodeToken(token: string) {
         try {
             return jwt.decode(token);
-        } catch {
-            return null;
-        }
-    }
-
-    public removeAccessToken(id: number) {
-        try {
-            localStorage.removeItem(String(id));
-            return "Access token removed";
         } catch {
             return null;
         }

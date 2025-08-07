@@ -27,8 +27,8 @@ import { FileStorage } from "./Services/File/FileStorage";
 import { LikeController } from "./Controllers/LikeController";
 import { LikeService } from "./Services/Like/LikeService";
 import { NotificationService } from "./Services/Notifications/NotificationService";
-import server from './httpServer';
 
+console.log('config');
 export const configurationService = new ConfigurationService();
 
 export const AppDataSource = new DataSource({
@@ -54,14 +54,7 @@ export const AppDataSource = new DataSource({
     subscribers: [],
 });
 
-AppDataSource.initialize()
-    .then(async () => {
-        console.log('Data Source has been initialized!');
-    })
-    .catch((error) => {
-        console.error('Error during Data Source initialization:', error);
-    });
-
+//         ======Repositoties======
 export const likeRepository = new LikeRepository(AppDataSource.getRepository(Like));
 export const attachmentRepository = new AttachmentsRepository(AppDataSource.getRepository(Attachment));
 export const attachmentsMessageRepository = new AttachmentsMessageRepository(AppDataSource.getRepository(AttachmentMessage));
@@ -71,16 +64,27 @@ export const userRepository = new UserRepository(AppDataSource.getRepository(Use
 export const chatRepository = new ChatRepository(AppDataSource.getRepository(Chat));
 export const notificationRepository = new NotificationRepository(AppDataSource.getRepository(Notifications));
 
+//         ======FileSystem======
 export const fileService = new FileService(configurationService);
 export const fileStorage = new FileStorage(fileService, attachmentRepository);
 
-export const notificationService = new NotificationService(server);
+//         ======Services======
 export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService, fileStorage);
 export const userService = new UserService(configurationService, userRepository, fileStorage);
 export const likeService = new LikeService(configurationService, likeRepository, fileStorage);
+export const notificationService = new NotificationService(notificationRepository, configurationService);
 
-export const authController = new AuthController();
-export const userController = new UserController();
-export const likeController = new LikeController();
+//         ======Controllers======
+export const authController = new AuthController(authService);
+export const userController = new UserController(userService);
+export const likeController = new LikeController(likeService);
+
+AppDataSource.initialize()
+    .then(async () => {
+        console.log('Data Source has been initialized!');
+    })
+    .catch((error) => {
+        console.error('Error during Data Source initialization:', error);
+    });

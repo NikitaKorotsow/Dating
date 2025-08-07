@@ -1,18 +1,29 @@
-import { Server } from 'http';
-import { WebSocketServer } from 'ws';
-// import { Request } from "express";
-// import { INotification } from "../../Models/Interfaces/INotification";
+import { WebSocket, WebSocketServer } from "ws";
+import { NotificationRepository } from "../../Repositories/NotificationRepository";
+import { INotification } from "../../Models/Interfaces/INotification";
+import { ConfigurationService } from "../Configurations/ConfigurationService";
 
 export class NotificationService {
-    // Самостоятельно подключиться и использовать server в конструкторе
+    private client = new Map<string, WebSocket>();
+    private readonly _notificationRepository: NotificationRepository;
+    private readonly _wsServer: WebSocketServer;
+    private readonly _configurationService: ConfigurationService;
 
-    private wsServer: WebSocketServer;
-
-    constructor(httpServer: Server) {
-        // Подключаем WebSocket к уже существующему HTTP-серверу
-        this.wsServer = new WebSocketServer({ server: httpServer });
-        console.log('WebSocket запущен и привязан к Express');
+    constructor(notificationRepository: NotificationRepository, configurationService: ConfigurationService) {
+        this._notificationRepository = notificationRepository;
+        this._configurationService = configurationService;
     }
-    // Должна быть функция отправки уведомления и записи в бд этого уведомления
+
+    public sendNotification = async (data: INotification) => {
+        this._wsServer.on("connection", ws => {
+            this.client.set(data.userId.toString(), ws);
+            console.log("Чипс добавлен");
+        });
+        this._wsServer.on("close", () => {
+            this.client.delete(data.userId.toString());
+            console.log("Чипс удален");
+
+        });
+    };
 
 }

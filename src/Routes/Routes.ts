@@ -1,25 +1,35 @@
 import { Router } from 'express';
-import { authController, likeController, userController } from '../app.config';
+import { RequestHandler } from 'express';
 import { upload } from '../Utils/MulterUtils/MulterUtils';
-import { jwtMiddleware } from '../Middleware/JWTMiddleware';
-export const authRouter = Router();
-export const userRouter = Router();
-export const likeRouter = Router();
-export const testRouter = Router();
+import { AuthController } from '../Controllers/AuthController';
+import { UserController } from '../Controllers/UserController';
+import { LikeController } from '../Controllers/LikeController';
 
-authRouter.post('/registration', authController.register);
-authRouter.post('/login', authController.login);
-authRouter.post('/logout', authController.logout);
+export const createAuthRouter = (authController: AuthController) => {
+    const authRouter = Router();
+    authRouter.post('/registration', authController.register);
+    authRouter.post('/login', authController.login);
+    authRouter.post('/logout', authController.logout);
+    return authRouter;
+};
 
-userRouter.put('/', upload.single('file'), userController.updateProfile);
-userRouter.get('/:id', jwtMiddleware, userController.getProfile);
-userRouter.delete('/', userController.deleteProfile);
-userRouter.delete('/deleteAvatar', upload.single('file'), userController.deleteAvatar);
+export const createUserRouter = (userController: UserController, jwtMiddleware: RequestHandler) => {
+    const userRouter = Router();
+    userRouter.put('/', jwtMiddleware, upload.single('file'), userController.updateProfile);
+    userRouter.get('/:id', jwtMiddleware, userController.getProfile);
+    userRouter.delete('/', jwtMiddleware, userController.deleteProfile);
+    userRouter.delete('/deleteAvatar', jwtMiddleware, upload.single('file'), userController.deleteAvatar);
+    return userRouter;
+};
 
-likeRouter.post('/', likeController.createLike);
-likeRouter.post('/listTo', jwtMiddleware, likeController.getLikesListTo);
-likeRouter.post('/listFrom', jwtMiddleware, likeController.getLikesListFrom);
-likeRouter.delete('/listTo', jwtMiddleware, likeController.deleteLike);
-likeRouter.delete('/listFrom', jwtMiddleware, likeController.deleteLike);
+export const createLikeRouter = (likeController: LikeController, jwtMiddleware: RequestHandler) => {
+    const likeRouter = Router();
+    likeRouter.post('/', likeController.createLike);
+    likeRouter.post('/listTo', jwtMiddleware, likeController.getLikesListTo);
+    likeRouter.post('/listFrom', jwtMiddleware, likeController.getLikesListFrom);
+    likeRouter.delete('/listTo', jwtMiddleware, likeController.deleteLike);
+    likeRouter.delete('/listFrom', jwtMiddleware, likeController.deleteLike);
+    return likeRouter;
+};
 
 //notifications

@@ -89,7 +89,6 @@ export class AuthService {
 
     public async logout(id: number): Promise<IResponse<string | null>> {
         try {
-            this._tokenService.removeAccessToken(id);
             await this._tokenService.removeRefreshToken(id);
             const result = "tokens deleted";
             return GeneraterResponse.getResponse('Success', 200, result);
