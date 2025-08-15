@@ -95,6 +95,9 @@ export class User extends BaseEntity {
     messageFrom: Message[];
 
     @OneToMany(() => Notifications, notification => notification.to)
-    notification: Notifications[];
+    notificationTo: Notifications[];
+
+    @OneToMany(() => Notifications, notification => notification.from)
+    notificationFrom: Notifications[];
 
 }

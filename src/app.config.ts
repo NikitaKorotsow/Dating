@@ -27,8 +27,11 @@ import { FileStorage } from "./Services/File/FileStorage";
 import { LikeController } from "./Controllers/LikeController";
 import { LikeService } from "./Services/Like/LikeService";
 import { NotificationService } from "./Services/Notifications/NotificationService";
+import { wsServer } from "./httpService";
+import { WebSocketService } from "./Services/Websocket/WebsocketService";
+import { ChatService } from "./Services/Chat/ChatService";
+import { ChatController } from "./Controllers/ChatController";
 
-console.log('config');
 export const configurationService = new ConfigurationService();
 
 export const AppDataSource = new DataSource({
@@ -69,21 +72,25 @@ export const fileService = new FileService(configurationService);
 export const fileStorage = new FileStorage(fileService, attachmentRepository);
 
 //         ======Services======
+export const webSocketService = new WebSocketService();
+export const notificationService = new NotificationService(notificationRepository, webSocketService);
+export const chatService = new ChatService(chatRepository, messageRepository, chatMessageRepository, attachmentsMessageRepository, notificationService, webSocketService);
 export const redisService = new RedisService(configurationService);
 export const tokenService = new TokenService(configurationService, redisService);
 export const authService = new AuthService(configurationService, userRepository, tokenService, fileStorage);
 export const userService = new UserService(configurationService, userRepository, fileStorage);
-export const likeService = new LikeService(configurationService, likeRepository, fileStorage);
-export const notificationService = new NotificationService(notificationRepository, configurationService);
+export const likeService = new LikeService(configurationService, likeRepository, fileStorage, notificationService);
 
 //         ======Controllers======
 export const authController = new AuthController(authService);
 export const userController = new UserController(userService);
 export const likeController = new LikeController(likeService);
+export const chatController = new ChatController(chatService);
 
 AppDataSource.initialize()
     .then(async () => {
         console.log('Data Source has been initialized!');
+        webSocketService.setupConnection(wsServer, notificationService);
     })
     .catch((error) => {
         console.error('Error during Data Source initialization:', error);

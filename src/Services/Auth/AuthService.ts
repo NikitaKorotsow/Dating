@@ -39,8 +39,7 @@ export class AuthService {
                 );
                 const tokens: IToken = this._tokenService.generateTokens(user.id.toString());
 
-                const tok = await this._tokenService.saveRefreshToken(user.id, tokens.refreshToken);
-                console.log(tok);
+                await this._tokenService.saveRefreshToken(user.id, tokens.refreshToken);
                 return GeneraterResponse.getResponse<IUserAuthData<number>>("success", 200, {
                     user: user.id,
                     tokens: tokens

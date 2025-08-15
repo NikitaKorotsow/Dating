@@ -22,19 +22,19 @@ export class Notifications extends BaseEntity {
     })
     to: User;
 
+    @ManyToOne(() => User, user => user.id)
+
+    @JoinColumn({
+        name: 'from_id'
+    })
+    from: User;
+
     @Column({
         type: 'text',
         nullable: false,
         name: 'type'
     })
     type: string;
-
-    @Column({
-        type: 'text',
-        nullable: false,
-        name: 'message'
-    })
-    message: string;
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -49,4 +49,11 @@ export class Notifications extends BaseEntity {
         name: 'is_deleted'
     })
     isDeleted: boolean;
+
+    @Column({
+        type: 'boolean',
+        nullable: false,
+        name: 'read'
+    })
+    read: boolean;
 }

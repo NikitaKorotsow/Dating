@@ -23,6 +23,7 @@ export class AuthController extends Controller {
     public login = async (req: Request, res: Response) => {
         const login: string = req.body.login as string;
         const password: string = req.body.password as string;
+
         const answer: IResponse<IUserAuthData<IUserInfo> | null> = await this._authService.login(login, password);
         await AuthController.send<IResponse<IUserAuthData<IUserInfo> | null>>(res, answer, answer.code);
     };

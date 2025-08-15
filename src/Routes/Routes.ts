@@ -4,6 +4,7 @@ import { upload } from '../Utils/MulterUtils/MulterUtils';
 import { AuthController } from '../Controllers/AuthController';
 import { UserController } from '../Controllers/UserController';
 import { LikeController } from '../Controllers/LikeController';
+import { ChatController } from '../Controllers/ChatController';
 
 export const createAuthRouter = (authController: AuthController) => {
     const authRouter = Router();
@@ -24,7 +25,7 @@ export const createUserRouter = (userController: UserController, jwtMiddleware: 
 
 export const createLikeRouter = (likeController: LikeController, jwtMiddleware: RequestHandler) => {
     const likeRouter = Router();
-    likeRouter.post('/', likeController.createLike);
+    likeRouter.post('/', jwtMiddleware, likeController.createLike);
     likeRouter.post('/listTo', jwtMiddleware, likeController.getLikesListTo);
     likeRouter.post('/listFrom', jwtMiddleware, likeController.getLikesListFrom);
     likeRouter.delete('/listTo', jwtMiddleware, likeController.deleteLike);
@@ -32,4 +33,10 @@ export const createLikeRouter = (likeController: LikeController, jwtMiddleware: 
     return likeRouter;
 };
 
-//notifications
+export const createChatRouter = (chatController: ChatController, jwtMiddleware: RequestHandler) => {
+    const chatRouter = Router();
+    chatRouter.post('/', jwtMiddleware, chatController.getUserChats);
+    chatRouter.post('/send', jwtMiddleware, chatController.sendMessage);
+    chatRouter.delete('/messages', jwtMiddleware, chatController.deleteMessage);
+    return chatRouter;
+};

@@ -1,5 +1,7 @@
 export interface INotification {
-    type: 'like' | 'message' | 'friend_request';
-    userId: number;
-    data: string;
+    type: 'like' | 'message',
+    userIdTo: number,
+    userIdFrom: number,
+    read: boolean,
+    createDate: string
 }

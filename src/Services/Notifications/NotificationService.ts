@@ -1,29 +1,50 @@
-import { WebSocket, WebSocketServer } from "ws";
-import { NotificationRepository } from "../../Repositories/NotificationRepository";
 import { INotification } from "../../Models/Interfaces/INotification";
-import { ConfigurationService } from "../Configurations/ConfigurationService";
+import { NotificationRepository } from "../../Repositories/NotificationRepository";
+import { NotificationsFilter } from "../../Models/Filters/NotificationFilter";
+import { WebSocketService } from "../Websocket/WebsocketService";
+import { IWebSocketData } from "../../Models/Interfaces/IWebSocketData";
+import { Notifications } from "../../Models/Entities/Notifications";
 
 export class NotificationService {
-    private client = new Map<string, WebSocket>();
     private readonly _notificationRepository: NotificationRepository;
-    private readonly _wsServer: WebSocketServer;
-    private readonly _configurationService: ConfigurationService;
+    private readonly _websocketService: WebSocketService;
 
-    constructor(notificationRepository: NotificationRepository, configurationService: ConfigurationService) {
+    constructor(notificationRepository: NotificationRepository, webSocketService: WebSocketService) {
         this._notificationRepository = notificationRepository;
-        this._configurationService = configurationService;
+        this._websocketService = webSocketService;
     }
 
-    public sendNotification = async (data: INotification) => {
-        this._wsServer.on("connection", ws => {
-            this.client.set(data.userId.toString(), ws);
-            console.log("Чипс добавлен");
-        });
-        this._wsServer.on("close", () => {
-            this.client.delete(data.userId.toString());
-            console.log("Чипс удален");
+    public sendUnreadNotifications = async (userId: number) => {
+        const unreadNotifications = await this._notificationRepository.getForIdByRead(userId, false);
+        if (!unreadNotifications) {
+            console.log("Список уведомлений пуст");
+            return null;
+        }
 
-        });
+        const notificationsInfo: IWebSocketData<Notifications[]> = {
+            userId: userId,
+            event: "notification",
+            data: unreadNotifications
+        };
+        this._websocketService.sendToUser(notificationsInfo);
+        console.log(`Отправлено ${unreadNotifications.length} непрочитанных уведомлений пользователю ${userId}`);
     };
 
+    public sendNotifications = async (data: INotification) => {
+        const notification = await this._notificationRepository.create(new NotificationsFilter()
+            .withTo(data.userIdTo)
+            .withFrom(data.userIdFrom)
+            .withRead(false)
+            .withCreatedDate(new Date().toString())
+            .withIsDeleted(false)
+            .withType(data.type));
+        const notificationInfo: IWebSocketData<Notifications> = {
+            userId: data.userIdTo,
+            event: "notification",
+            data: notification
+        };
+        this._websocketService.sendToUser(notificationInfo);
+        console.log(`Уведомление отправлено пользователю ${data.userIdTo}`);
+        return notification;
+    };
 }

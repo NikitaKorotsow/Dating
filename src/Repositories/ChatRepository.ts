@@ -45,6 +45,47 @@ export class ChatRepository {
         }
     }
 
+    public async getByToAndFromId(to: number, from: number): Promise<Chat | null> {
+        try {
+            return await this._repository.findOne({
+                where: [
+                    {
+                        fromId: { id: from }, toId: { id: to },
+                    },
+                    {
+                        fromId: { id: to }, toId: { id: from },
+                    }
+                ],
+                relations: ['toId', 'fromId'],
+            });
+        } catch {
+            return null;
+        }
+    }
+
+    public async getAllChatsForUser(id: number): Promise<Chat[] | null> {
+        try {
+            return await this._repository.find({
+                where: [
+                    { fromId: { id: id } },
+                    { toId: { id: id } },
+                ],
+                relations: [
+                    'fromId',
+                    'toId',
+                    'chatId',
+                    'chatId.messageId',
+                    'chatId.messageId.fromId',
+                    'chatId.messageId.toId',
+                    'chatId.messageId.attachmentsMessageId',
+                    'chatId.messageId.attachmentsMessageId.attachmentsId',
+                ]
+            });
+        } catch {
+            return null;
+        }
+    }
+
     public async create(filter: ChatFilter): Promise<Chat> {
         const entity: Chat = await this._repository.create();
         entity.toId = filter.toId ?? entity.toId;

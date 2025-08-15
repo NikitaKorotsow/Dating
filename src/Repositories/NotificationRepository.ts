@@ -41,18 +41,6 @@ export class NotificationRepository {
         }
     }
 
-    public async getByMessage(message: string): Promise<Notifications[] | null> {
-        try {
-            return await this._repository.find({
-                where: {
-                    message: message,
-                }
-            });
-        } catch {
-            return null;
-        }
-    }
-
     public async getByCreatedDate(createdDate: string): Promise<Notifications[] | null> {
         try {
             return await this._repository.find({
@@ -78,13 +66,29 @@ export class NotificationRepository {
         }
     }
 
+    public async getForIdByRead(to: number, read: boolean): Promise<Notifications[] | null> {
+        try {
+            return await this._repository.find({
+                where: {
+                    to: {
+                        id: to
+                    },
+                    read: read,
+                }
+            });
+        } catch {
+            return null;
+        }
+    }
+
     public async create(filter: NotificationsFilter): Promise<Notifications> {
         const entity: Notifications = await this._repository.create();
         entity.to = filter.to ?? entity.to;
+        entity.from = filter.from ?? entity.from;
         entity.type = filter.type ?? entity.type;
-        entity.message = filter.message ?? entity.message;
         entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
         entity.createdDate = filter.createdDate ?? entity.createdDate;
+        entity.read = filter.read ?? entity.read;
         return await this._repository.save(entity);
     }
 }

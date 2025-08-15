@@ -34,7 +34,6 @@ export class UserController extends Controller {
             userData,
             req.file ? req.file : null,
         );
-        console.log(answer);
         await UserController.send<IResponse<boolean | null>>(res, answer, answer.code);
         return;
 
