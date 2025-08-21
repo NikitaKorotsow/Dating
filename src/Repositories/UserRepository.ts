@@ -77,6 +77,7 @@ export class UserRepository {
             return null;
         }
     }
+
     public async getByEmail(email: string): Promise<User | null> {
         try {
             return await this._repository.findOne({
@@ -110,17 +111,30 @@ export class UserRepository {
         entity.login = filter.login ?? entity.login;
         entity.email = filter.email ?? entity.email;
         entity.name = filter.name ?? entity.name;
+        entity.login = filter.login ?? entity.login;
+        entity.password = filter.password ?? entity.password;
         return await this._repository.save(entity);
     }
 
     public async update(entity: User, filter: UserFilter): Promise<User> {
-        entity.age = filter.age ?? entity.age;
-        entity.city = filter.city ?? entity.city;
-        entity.gender = filter.gender ?? entity.gender;
-        entity.isDeleted = filter.isDeleted ?? entity.isDeleted;
-        entity.login = filter.login ?? entity.login;
-        entity.email = filter.email ?? entity.email;
-        entity.name = filter.name ?? entity.name;
+        if (filter.age) {
+            entity.age = filter.age;
+        }
+        if (filter.city) {
+            entity.city = filter.city;
+        }
+        if (filter.gender) {
+            entity.gender = filter.gender;
+        }
+        if (filter.isDeleted) {
+            entity.isDeleted = filter.isDeleted;
+        }
+        if (filter.email) {
+            entity.email = filter.email;
+        }
+        if (filter.name) {
+            entity.name = filter.name;
+        }
         return await this._repository.save(entity);
     }
 }

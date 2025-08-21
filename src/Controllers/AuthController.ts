@@ -1,46 +1,36 @@
-import { Request } from "express";
-import { IRoute } from "../Models/Interfaces/IRoute";
-import { AuthService } from "../Services/AuthService";
+import { Request, Response } from "express";
+import { IResponse } from "../Models/Interfaces/Responses/IResponse";
+import { IUserAuthData, IUserInfo } from "../Models/Interfaces/IUserAuthData";
+import { AuthService } from "../Services/Auth/AuthService";
 import Controller from "./Controller";
 
 export class AuthController extends Controller {
 
-    private readonly _authSrvice: AuthService;
+    private readonly _authService: AuthService;
 
     constructor(authService: AuthService) {
         super();
-        this._authSrvice = authService;
+        this._authService = authService;
     }
 
-    public routes: IRoute[] = [
-        {
-            path: '/register',
-            method: 'post',
-            handler: this.registerUser,
-        },
+    public register = async (req: Request, res: Response) => {
+        const login: string = req.body.login as string;
+        const password: string = req.body.password as string;
+        const answer: IResponse<IUserAuthData<number> | null> = await this._authService.register(login, password);
+        await AuthController.send<IResponse<IUserAuthData<number> | null>>(res, answer, answer.code);
+    };
 
-        {
-            path: '/login',
-            method: 'post',
-            handler: this.loginUser,
-        },
-        {
-            path: '/logout',
-            method: 'post',
-            handler: this.logoutUser,
-        }
-    ];
+    public login = async (req: Request, res: Response) => {
+        const login: string = req.body.login as string;
+        const password: string = req.body.password as string;
 
-    private registerUser(req: Request) {
-        return this._authSrvice.register(req.params.login, req.params.password);
-    }
+        const answer: IResponse<IUserAuthData<IUserInfo> | null> = await this._authService.login(login, password);
+        await AuthController.send<IResponse<IUserAuthData<IUserInfo> | null>>(res, answer, answer.code);
+    };
 
-    private loginUser(req: Request) {
-        return this._authSrvice.login(req.params.login, req.params.password);
-
-    }
-
-    private logoutUser(req: Request) {
-        return this._authSrvice.logout(Number(req.params.id));
-    }
+    public logout = async (req: Request, res: Response) => {
+        const id: number = req.body.id as number;
+        const answer = await this._authService.logout(id);
+        await AuthController.send<IResponse<string | null>>(res, answer, answer.code);
+    };
 }

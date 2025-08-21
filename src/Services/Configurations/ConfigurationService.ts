@@ -14,8 +14,8 @@ export class ConfigurationService {
     //Auth
     public readonly LOGIN_MIN_LENGTH: number;
     public readonly PASSWORD_MIN_LENGTH: number;
-    public readonly ACCESS_TOKEN: string;
-    public readonly REFRESH_TOKEN: string;
+    public readonly JWT_ACCESS_KEY: string;
+    public readonly JWT_REFRESH_KEY: string;
 
     public readonly REFRESH_TOKEN_LIFE_TIME: number;
     public readonly ACCESS_TOKEN_LIFE_TIME: number;
@@ -38,12 +38,13 @@ export class ConfigurationService {
     DATABASE_USER=postgres
 
     JWT_ACCESS_KEY=HxJ6hImgYdSg258gEnycP
-    JWT_REFRESH_KEY=HGR20uc6UOOowYVOZRpNx
+    JWT_REFRESH_KEY=HxJ6hImgYdSg258gEnycP
     LIFE_TME=3600
 
     REDIS_HOST=localhost
     REDIS_PORT=7777
-    REDIS_PASSWORD= */
+    REDIS_PASSWORD=
+    */
 
     constructor() {
         this.SECRET_KEY = process.env.SECRET_KEY as string;
@@ -54,12 +55,12 @@ export class ConfigurationService {
         this.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD as string;
         this.DATABASE_USER = process.env.DATABASE_USER as string;
         this.REFRESH_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) * 24 * 30; //30 d
-        this.ACCESS_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) / 6; // 10 m
+        this.ACCESS_TOKEN_LIFE_TIME = Number(process.env.LIFE_TIME) / 6 / 10 / 2 * 60 * 24; // 1 d
         this.REDIS_HOST = process.env.REDIS_HOST as string;
         this.REDIS_PORT = Number(process.env.REDIS_PORT);
         this.REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;
-        this.ACCESS_TOKEN = process.env.ACCESS_TOKEN as string;
-        this.REFRESH_TOKEN = process.env.REFRESH_TOKEN as string;
+        this.JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY as string;
+        this.JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY as string;
         this.EXPRESS_PORT = Number(process.env.EXPRESS_PORT);
 
     }

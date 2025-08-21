@@ -45,7 +45,11 @@ export class LikeRepository {
                     to: {
                         id: id
                     }
-                }
+                },
+                relations: [
+                    'to',
+                    'from'
+                ]
             });
         } catch {
             return null;
@@ -79,5 +83,20 @@ export class LikeRepository {
         entity.from = filter.from ?? entity.from;
         entity.deletedDate = filter.deletedDate ?? entity.deletedDate;
         return await this._repository.save(entity);
+    }
+    public async delete(from: number, to: number): Promise<boolean> {
+        try {
+            await this._repository.delete({
+                from: {
+                    id: from
+                },
+                to: {
+                    id: to
+                }
+            });
+            return true;
+        } catch {
+            return false;
+        }
     }
 }

@@ -6,7 +6,8 @@ import {
     CreateDateColumn,
     JoinColumn,
     Column,
-    OneToMany
+    OneToMany,
+    UpdateDateColumn
 } from "typeorm";
 import { User } from "./Users";
 import { ChatMessage } from "./ChatMessage";
@@ -44,16 +45,16 @@ export class Message extends BaseEntity {
     })
     createdDate: string;
 
-    @CreateDateColumn({
+    @UpdateDateColumn({
         type: 'timestamp',
         nullable: false,
         name: 'updated_date'
     })
     updatedDate: string;
 
-    @CreateDateColumn({
+    @Column({
         type: 'timestamp',
-        nullable: false,
+        nullable: true,
         name: 'deleted_date'
     })
     deletedDate: string;

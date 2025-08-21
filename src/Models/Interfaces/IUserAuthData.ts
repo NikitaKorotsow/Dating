@@ -13,4 +13,5 @@ export interface IUserInfo {
     name: string | null,
     email: string | null,
     isDeleted: boolean | null,
+    avatars: Buffer[] | null,
 }

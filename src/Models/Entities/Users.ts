@@ -9,6 +9,7 @@ import { Attachment } from './Attachments';
 import { Like } from "./Likes";
 import { Chat } from "./Chats";
 import { Message } from './Messages';
+import { Notifications } from "./Notifications";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -21,28 +22,28 @@ export class User extends BaseEntity {
         nullable: true,
         name: 'age'
     })
-    age: number | null;
+    age: number;
 
     @Column({
         type: 'text',
         nullable: true,
         name: 'city'
     })
-    city: string | null;
+    city: string;
 
     @Column({
         type: 'text',
         nullable: true,
         name: 'gender'
     })
-    gender: string | null;
+    gender: string;
 
     @Column({
         type: 'boolean',
         nullable: true,
         name: 'is_deleted'
     })
-    isDeleted: boolean | null;
+    isDeleted: boolean;
 
     @Column({
         type: 'text',
@@ -63,14 +64,14 @@ export class User extends BaseEntity {
         nullable: true,
         name: 'email'
     })
-    email: string | null;
+    email: string;
 
     @Column({
         type: 'text',
         nullable: true,
         name: 'name'
     })
-    name: string | null;
+    name: string;
 
     @OneToMany(() => Attachment, attachment => attachment.user)
     attachments: Attachment[];
@@ -92,5 +93,11 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Message, message => message.fromId)
     messageFrom: Message[];
+
+    @OneToMany(() => Notifications, notification => notification.to)
+    notificationTo: Notifications[];
+
+    @OneToMany(() => Notifications, notification => notification.from)
+    notificationFrom: Notifications[];
 
 }

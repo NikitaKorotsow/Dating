@@ -29,13 +29,15 @@ export class Like extends BaseEntity {
 
     @CreateDateColumn({
         type: 'timestamp',
-        name: 'created_date'
+        name: 'created_date',
+        nullable: true
     })
     createdDate: string;
 
     @Column({
         type: 'timestamp',
-        name: 'deleted_date'
+        name: 'deleted_date',
+        nullable: true
     })
     deletedDate: string;
 }
